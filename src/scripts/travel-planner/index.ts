@@ -1,4 +1,4 @@
-import { getCharacters, getEpisodes, getLocations } from "../../services/rickAndMortyApi";
+import { getCharacters, getLocations } from "../../services/rickAndMortyApi";
 import { getRickAndMortyErrorView } from "../../services/rickAndMortyApiError";
 import { travelStore } from "../../stores/travelStore";
 import { renderCompanions, renderQuote } from "./booking";
@@ -16,32 +16,23 @@ export * from "./helpers";
 export * from "./notifications";
 export * from "./reservations";
 
-function updateCatalogCounters(locations: number, characters: number, episodes: number): void {
-  document.querySelector("#location-count")?.replaceChildren(String(locations));
-  document.querySelector("#character-count")?.replaceChildren(String(characters));
-  document.querySelector("#episode-count")?.replaceChildren(String(episodes));
-}
-
 // Carga inicial separada para que el botón temático pueda reintentar sin duplicar listeners.
 async function loadInitialData(): Promise<void> {
   const requests = [
     getLocations(),
-    getCharacters(),
     getCharacters({ page: 1, status: "alive" }),
-    getEpisodes(),
   ] as const;
   renderCatalog(() => void loadInitialData());
 
   try {
     // Construye el catálogo y los acompañantes mediante peticiones paralelas.
-    const [locations, characters, aliveCharacters, episodes] = await Promise.all(requests);
+    const [locations, aliveCharacters] = await Promise.all(requests);
 
     // actualiza el estado local con los resultados de la API
     locations.results.forEach((location) => knownLocations.set(location.id, location));
     setBaseCompanions(aliveCharacters.results);
     travelStore.getState().setCompanions(aliveCharacters.results);
     travelStore.getState().setCatalog(locations.results, 1, locations.info.pages);
-    updateCatalogCounters(locations.info.count, characters.info.count, episodes.info.count);
     updateLocationOptions();
     renderCompanions();
     renderCatalog();
@@ -49,6 +40,8 @@ async function loadInitialData(): Promise<void> {
   } catch (error) {
     // Espera sus `finally`: así loading queda en false antes de pintar el error.
     await Promise.allSettled(requests);
+
+    //seteando el error en el store y renderizando el catalogo con el error
     travelStore.getState().setError(getRickAndMortyErrorView(error));
     renderCatalog(() => void loadInitialData());
   }
