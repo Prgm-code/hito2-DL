@@ -4,10 +4,9 @@ import type { ApiErrorView } from "../services/rickAndMortyApiError";
 import type { Character, Location } from "../types/rick-and-morty";
 import type { Reservation, ReservationDraft } from "../types/reservation";
 
-export const initialDraft: ReservationDraft = {
+const initialDraft: ReservationDraft = {
   passengerName: "",
   email: "",
-  originId: 0,
   destinationId: 0,
   travelDate: "",
   passengers: 1,

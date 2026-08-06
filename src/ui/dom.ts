@@ -1,7 +1,6 @@
-// Tipos aceptados como hijos; null y false permiten composición condicional.
-export type DomChild = Node | string | number | false | null | undefined;
+type DomChild = Node | string | number | false | null | undefined;
 
-export interface ElementOptions {
+interface ElementOptions {
   className?: string;
   text?: string | number;
   id?: string;
@@ -9,7 +8,7 @@ export interface ElementOptions {
   dataset?: Readonly<Record<string, string | number>>;
 }
 
-export function appendChildren(parent: Node, ...children: DomChild[]): void {
+function appendChildren(parent: Node, ...children: DomChild[]): void {
   children.forEach((child) => {
     if (child === null || child === undefined || child === false) return;
     parent.appendChild(child instanceof Node ? child : document.createTextNode(String(child)));
@@ -40,8 +39,13 @@ export function createFragment(...children: DomChild[]): DocumentFragment {
 
 export function createImage(src: string, alt = "", className = ""): HTMLImageElement {
   const image = createElement("img", { className });
-  image.src = src;
   image.alt = alt;
+  image.width = 300;
+  image.height = 300;
+  image.loading = "lazy";
+  image.decoding = "async";
+  image.addEventListener("error", () => { image.hidden = true; }, { once: true });
+  image.src = src;
   return image;
 }
 

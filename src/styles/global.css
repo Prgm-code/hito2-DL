@@ -12,3 +12,8 @@ select,
 textarea {
   font: inherit;
 }
+
+/* Evita que los estilos de componentes anulen el respaldo de una imagen fallida. */
+img[hidden] {
+  display: none !important;
+}

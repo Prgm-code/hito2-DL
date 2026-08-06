@@ -10,65 +10,19 @@ import {
   createJourneyView,
 } from "../ui/journeyElements";
 import { formatCredits } from "../utils/travelRules";
+import { element } from "./travel-planner/helpers";
 
-function element<T extends HTMLElement>(selector: string): T {
-  const match = document.querySelector<T>(selector);
-  if (!match) throw new Error(`No se encontró ${selector}`);
-  return match;
-}
+const MAX_JOURNEY_RESIDENTS = 24;
+const MAX_JOURNEY_EPISODES = 40;
 
 function reservationCompanionIds(reservation: Reservation): number[] {
   if (Array.isArray(reservation.companions)) return reservation.companions.map((character) => character.id);
   return reservation.companion ? [reservation.companion.id] : reservation.companionId ? [reservation.companionId] : [];
 }
 
-function episodeCode(url: string): number {
-  return getIdFromUrl(url);
-}
-
 function formatDate(date: string): string {
   return new Intl.DateTimeFormat("es-CL", { weekday: "long", day: "numeric", month: "long", year: "numeric" })
     .format(new Date(`${date}T12:00:00`));
-}
-
-/**
- * Divide identificadores para evitar construir URLs excesivamente largas.
- *
- * @param ids Identificadores que se dividirán en grupos.
- * @param batchSize Cantidad máxima de identificadores por petición.
- * @returns Arreglo con los grupos de identificadores.
- */
-function createBatches(ids: number[], batchSize = 20): number[][] {
-  const uniqueIds = [...new Set(ids)].filter(Number.isFinite);
-  return Array.from({ length: Math.ceil(uniqueIds.length / batchSize) }, (_, index) =>
-    uniqueIds.slice(index * batchSize, (index + 1) * batchSize),
-  );
-}
-
-/**
- * Recupera todos los personajes solicitados usando peticiones múltiples tipadas.
- *
- * @param ids Identificadores de personajes relacionados con el destino o el equipo.
- * @returns Personajes obtenidos en todos los lotes que respondieron correctamente.
- */
-async function getCharactersInBatches(ids: number[]): Promise<Character[]> {
-  const responses = await Promise.allSettled(
-    createBatches(ids).map((batch) => getCharactersByIds({ ids: batch })),
-  );
-  return responses.flatMap((response) => response.status === "fulfilled" ? response.value : []);
-}
-
-/**
- * Recupera los episodios relacionados en grupos de veinte identificadores.
- *
- * @param ids Identificadores de episodios obtenidos desde los personajes residentes.
- * @returns Episodios recuperados, ordenados posteriormente por su identificador.
- */
-async function getEpisodesInBatches(ids: number[]): Promise<Episode[]> {
-  const responses = await Promise.allSettled(
-    createBatches(ids).map((batch) => getEpisodesByIds({ ids: batch })),
-  );
-  return responses.flatMap((response) => response.status === "fulfilled" ? response.value : []);
 }
 
 function bindRelationToggles(content: HTMLElement): void {
@@ -111,9 +65,6 @@ function bindDetailModals(content: HTMLElement, residents: Character[], episodes
 
   element<HTMLButtonElement>("[data-close-modal]").addEventListener("click", () => modal.close());
   modal.addEventListener("click", (event) => { if (event.target === modal) modal.close(); });
-  modal.addEventListener("error", (event) => {
-    if (event.target instanceof HTMLImageElement) event.target.hidden = true;
-  }, true);
 }
 
 function renderJourney(
@@ -144,17 +95,14 @@ function renderJourney(
   content.hidden = false;
   bindRelationToggles(content);
   bindDetailModals(content, residents, episodes);
-  content.addEventListener("error", (event) => {
-    const image = event.target;
-    if (image instanceof HTMLImageElement && image.closest(".resident-portrait")) image.hidden = true;
-  }, true);
 }
 
 function renderError(error: ApiErrorView | string): void {
   const loading = element("#journey-loading");
   loading.replaceChildren(createJourneyError(error));
-  loading.querySelector<HTMLButtonElement>("[data-retry-journey]")
-    ?.addEventListener("click", () => window.location.reload());
+  const retry = loading.querySelector<HTMLButtonElement>("[data-retry-journey]");
+  if (!retry) return;
+  retry.addEventListener("click", () => window.location.reload(), { once: true });
 }
 
 async function initializeJourney(): Promise<void> {
@@ -169,12 +117,19 @@ async function initializeJourney(): Promise<void> {
   try {
     const destination = await getLocation({ id: activeReservation.destination.id });
     const companionIds = reservationCompanionIds(activeReservation);
-    const residentIds = destination.residents.map(getIdFromUrl);
-    const people = await getCharactersInBatches([...companionIds, ...residentIds]);
+    const residentIds = destination.residents.slice(0, MAX_JOURNEY_RESIDENTS).map(getIdFromUrl);
+    const people = await getCharactersByIds(
+      { ids: [...companionIds, ...residentIds] },
+      { trackLoading: false, reportError: false },
+    );
     const characters = companionIds.map((id) => people.find((person) => person.id === id)).filter((person): person is Character => Boolean(person));
     const residents = residentIds.map((id) => people.find((person) => person.id === id)).filter((person): person is Character => Boolean(person));
-    const episodeIds = [...characters, ...residents].flatMap((character) => character.episode.map(episodeCode));
-    const episodes = (await getEpisodesInBatches(episodeIds)).sort((first, second) => first.id - second.id);
+    const episodeIds = [...characters, ...residents]
+      .flatMap((character) => character.episode.map(getIdFromUrl));
+    const episodes = (await getEpisodesByIds(
+      { ids: episodeIds.slice(0, MAX_JOURNEY_EPISODES) },
+      { trackLoading: false, reportError: false },
+    )).sort((first, second) => first.id - second.id);
     renderJourney(activeReservation, destination, characters, episodes, residents);
   } catch (error) {
     renderError(getRickAndMortyErrorView(error));

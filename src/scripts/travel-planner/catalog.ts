@@ -12,24 +12,11 @@ import { calculateQuote } from "../../utils/travelRules";
 import { knownLocations, locationPreviews } from "./context";
 import { element } from "./helpers";
 
-const PREVIEW_LIMIT = 3;
+const PREVIEW_LIMIT_PER_LOCATION = 3;
 const SKELETON_COUNT = 6;
 
 function locationRisk(location: Location): RiskLabel {
   return calculateQuote({ passengers: 1, tripType: "express", insurance: false }, location).risk;
-}
-
-function createLocationOptions(locations: Location[], placeholder: string): HTMLOptionElement[] {
-  return [
-    new Option(placeholder, ""),
-    ...locations.map((location) => new Option(`${location.name} · ${location.dimension}`, String(location.id))),
-  ];
-}
-
-function appendKnownSelection(select: HTMLSelectElement, id: string): void {
-  if (!id || select.querySelector(`option[value="${id}"]`)) return;
-  const location = knownLocations.get(Number(id));
-  if (location) select.add(new Option(`${location.name} · ${location.dimension}`, id));
 }
 
 // Oculta solo la imagen fallida y recalcula el mosaico con las imágenes restantes.
@@ -77,26 +64,28 @@ export function renderCatalog(onRetry: () => void = () => void loadCatalog(1)): 
   element<HTMLButtonElement>("#next-page").disabled = unavailable || state.locationsPage >= state.totalLocationPages;
 }
 
-// Reconstruye ambos selects con la página actual sin perder valores ya elegidos.
+// Reconstruye el selector con la página actual sin perder el destino elegido.
 export function updateLocationOptions(): void {
   const state = travelStore.getState();
-  const origin = element<HTMLSelectElement>("#originId");
   const destination = element<HTMLSelectElement>("#destinationId");
-  const previousOrigin = String(state.draft.originId || "");
   const previousDestination = String(state.draft.destinationId || "");
 
-  origin.replaceChildren(...createLocationOptions(state.locations, "Selecciona un origen"));
-  destination.replaceChildren(...createLocationOptions(state.locations, "Selecciona un destino"));
+  destination.replaceChildren(
+    new Option("Selecciona un destino", ""),
+    ...state.locations.map((location) =>
+      new Option(`${location.name} · ${location.dimension}`, String(location.id))),
+  );
 
-  // Conserva selecciones pertenecientes a otra página del catálogo.
-  appendKnownSelection(origin, previousOrigin);
-  appendKnownSelection(destination, previousDestination);
-  origin.value = previousOrigin;
+  const selected = knownLocations.get(Number(previousDestination));
+  if (selected && !destination.querySelector(`option[value="${previousDestination}"]`)) {
+    destination.add(new Option(`${selected.name} · ${selected.dimension}`, previousDestination));
+  }
   destination.value = previousDestination;
 }
 
 export async function loadDestinationPreviews(locations: Location[]): Promise<void> {
-  const residentIds = locations.flatMap((location) => location.residents.slice(0, PREVIEW_LIMIT).map(getIdFromUrl));
+  const residentIds = locations.flatMap((location) =>
+    location.residents.slice(0, PREVIEW_LIMIT_PER_LOCATION).map(getIdFromUrl));
   if (!residentIds.length) return;
 
   try {
@@ -106,7 +95,8 @@ export async function loadDestinationPreviews(locations: Location[]): Promise<vo
     );
     const byId = new Map(residents.map((resident) => [resident.id, resident]));
     locations.forEach((location) => {
-      const previews = location.residents.slice(0, PREVIEW_LIMIT)
+      const previews = location.residents
+        .slice(0, PREVIEW_LIMIT_PER_LOCATION)
         .map(getIdFromUrl)
         .map((id) => byId.get(id))
         .filter((resident): resident is Character => Boolean(resident));
@@ -114,7 +104,7 @@ export async function loadDestinationPreviews(locations: Location[]): Promise<vo
     });
     renderCatalog();
   } catch {
-    // La ilustración generativa existente queda como respaldo cuando no hay imágenes.
+    // El arte vectorial local permanece visible si el lote de retratos no responde.
   }
 }
 

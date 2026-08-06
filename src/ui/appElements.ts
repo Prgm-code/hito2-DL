@@ -12,11 +12,11 @@ function riskClassName(risk: RiskLabel): string {
 }
 
 // Elementos del catálogo de destinos.
-export function createRiskElement(risk: RiskLabel): HTMLSpanElement {
+function createRiskElement(risk: RiskLabel): HTMLSpanElement {
   return createElement("span", { className: riskClassName(risk) }, createElement("i"), risk);
 }
 
-export function createDestinationArtwork(location: Location, residents: Character[]): HTMLDivElement {
+function createDestinationArtwork(location: Location, residents: Character[]): HTMLDivElement {
   const coordinate = createElement("span", {
     className: "coordinate",
     text: `${String(location.id).padStart(3, "0")} · RM`,
@@ -30,7 +30,6 @@ export function createDestinationArtwork(location: Location, residents: Characte
     residents.slice(0, 3).forEach((resident) => {
       const image = createImage(resident.image);
       image.title = `${resident.name}, residente de ${location.name}`;
-      image.loading = "lazy";
       artwork.append(image);
     });
     artwork.append(
@@ -115,7 +114,6 @@ export function createCompanionCard(character: Character, checked: boolean): HTM
   input.value = String(character.id);
   input.checked = checked;
   const image = createImage(character.image);
-  image.loading = "lazy";
   return createElement(
     "label",
     { className: `companion-card${checked ? " selected" : ""}` },
@@ -137,8 +135,6 @@ export function createReservationItem(
   formattedTotal: string,
 ): HTMLElement {
   const route = createElement("div", { className: "reservation-route" },
-    createElement("span", { text: reservation.origin.name }),
-    createElement("i", { text: "→" }),
     createElement("span", { text: reservation.destination.name }),
   );
   const meta = createElement("div", { className: "reservation-meta" },

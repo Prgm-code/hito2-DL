@@ -71,7 +71,6 @@ export function createCharacterStory(character: Character, episodeMap: Map<numbe
 
 export function createRelatedResident(character: Character, index: number): HTMLButtonElement {
   const image = createImage(character.image);
-  image.loading = "lazy";
   return createElement("button", {
     className: `related-resident${index >= 12 ? " relation-extra" : ""}`,
     attrs: { type: "button", "aria-label": `Ver información de ${character.name}` },
@@ -167,7 +166,6 @@ export function createEpisodeModal(episode: Episode, residents: Character[]): Do
   if (relatedResidents.length) {
     relatedResidents.forEach((resident) => {
       const image = createImage(resident.image);
-      image.loading = "lazy";
       cards.append(createElement("article", {},
         createElement("div", {}, createElement("span", { text: "◎", attrs: { "aria-hidden": "true" } }), image),
         createElement("b", { text: resident.name }),
@@ -270,8 +268,6 @@ export function createJourneyView(data: JourneyViewData): DocumentFragment {
       collage,
     ),
     createElement("section", { className: "mission-strip", attrs: { "aria-label": "Resumen de la misión" } },
-      createMissionItem("Origen", reservation.origin.name),
-      createElement("i", { text: "→" }),
       createMissionItem("Destino", destination.name),
       createMissionItem("Dimensión", destination.dimension),
       createMissionItem("Riesgo", reservation.quote.risk, `mission-risk ${reservation.quote.risk.toLowerCase()}`),
@@ -282,7 +278,7 @@ export function createJourneyView(data: JourneyViewData): DocumentFragment {
   const travelLog = createElement("section", { className: "travel-log", id: "bitacora" },
     createLogHeading("BITÁCORA EN VIVO", "La historia de tu expedición", "Los datos de personajes y episodios se consultaron al abrir este portal."),
     createElement("div", { className: "timeline" },
-      createTimelineStep("01", "Preparación", `Despegue desde ${reservation.origin.name}`, `Tu grupo cruza el control interdimensional con ${reservation.passengers} pasajero${reservation.passengers === 1 ? "" : "s"} y un plan ${reservation.tripType}.`),
+      createTimelineStep("01", "Preparación", `Portal calibrado hacia ${destination.name}`, `Tu grupo cruza el control interdimensional con ${reservation.passengers} pasajero${reservation.passengers === 1 ? "" : "s"} y un plan ${reservation.tripType}.`),
       createTimelineStep("02", "Cruce de portal", `Entrada a ${destination.dimension}`, `${destination.name} está clasificado como ${destination.type}. La agencia registra un nivel de riesgo ${reservation.quote.risk.toLowerCase()} para esta coordenada.`),
       createTimelineStep("03", "Encuentro", destination.residents.length ? `${destination.residents.length} señales residentes detectadas` : "Silencio total en el destino", destination.residents.length ? "Los retratos de la zona fueron recuperados desde el catálogo de residentes de la ubicación." : "No existen residentes registrados; el seguro y los protocolos de retorno permanecen activos."),
     ),
@@ -356,8 +352,8 @@ export function createJourneyError(error: ApiErrorView | string): DocumentFragme
   );
 
   const actions = createElement("div", { className: "mt-5 flex flex-wrap justify-center gap-2.5" });
-  if (isApiError && error.canRetry) actions.append(createElement("button", {
-    className: "cursor-pointer rounded-full border-0 bg-[var(--green)] px-4 py-2.5 text-[14px] font-extrabold text-[var(--night)]",
+  if (isApiError) actions.append(createElement("button", {
+    className: "cursor-pointer rounded-full border-0 bg-[var(--green)] px-4 py-2.5 text-[14px] font-extrabold text-[var(--night)] disabled:cursor-wait disabled:opacity-55",
     text: "Reintentar salto",
     attrs: { type: "button" },
     dataset: { retryJourney: "true" },

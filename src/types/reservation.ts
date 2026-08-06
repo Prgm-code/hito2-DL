@@ -7,7 +7,6 @@ export type ReservationStatus = "Confirmada" | "En curso" | "Cancelada";
 export interface ReservationDraft {
   passengerName: string;
   email: string;
-  originId: number;
   destinationId: number;
   travelDate: string;
   passengers: number;
@@ -33,7 +32,6 @@ export interface Reservation extends ReservationDraft {
   status: ReservationStatus;
   createdAt: string;
   startedAt?: string;
-  origin: Pick<Location, "id" | "name" | "dimension" | "type">;
   destination: Pick<Location, "id" | "name" | "dimension" | "type">;
   companions: Pick<Character, "id" | "name" | "image" | "species" | "status">[];
   /** Compatibilidad con reservas creadas antes de permitir varios personajes. */

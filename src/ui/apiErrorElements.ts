@@ -7,6 +7,15 @@ function errorMark(error: ApiErrorView): string {
   return error.kind === "network" ? "OFF" : "!";
 }
 
+function configureRetryButton(
+  button: HTMLButtonElement,
+  readyLabel: string,
+  onRetry: () => void,
+): void {
+  button.textContent = readyLabel;
+  button.addEventListener("click", onRetry, { once: true });
+}
+
 /**
  * Construye el estado de error temático utilizado por el catálogo.
  *
@@ -63,13 +72,12 @@ export function createApiErrorPanel(
     }),
   );
 
-  if (error.canRetry && onRetry) {
+  if (onRetry) {
     const retry = createElement("button", {
-      className: "mt-4 cursor-pointer rounded-full border-0 bg-[var(--ink)] px-4 py-2.5 text-[13px] font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-[#294535]",
-      text: "Recalibrar portal →",
+      className: "mt-4 cursor-pointer rounded-full border-0 bg-[var(--ink)] px-4 py-2.5 text-[13px] font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-[#294535] disabled:cursor-wait disabled:opacity-55 disabled:hover:translate-y-0",
       attrs: { type: "button" },
     });
-    retry.addEventListener("click", onRetry);
+    configureRetryButton(retry, "Recalibrar portal →", onRetry);
     content.append(retry);
   }
 
@@ -107,13 +115,12 @@ export function createApiFormErrorNotice(
     }),
   );
 
-  if (error.canRetry && onRetry) {
+  if (onRetry) {
     const retry = createElement("button", {
-      className: "col-start-2 mt-2 w-max cursor-pointer border-0 bg-transparent p-0 text-[12px] font-extrabold text-[#874020] hover:underline",
-      text: "Recalibrar formulario →",
+      className: "col-start-2 mt-2 w-max cursor-pointer border-0 bg-transparent p-0 text-[12px] font-extrabold text-[#874020] hover:underline disabled:cursor-wait disabled:opacity-60",
       attrs: { type: "button" },
     });
-    retry.addEventListener("click", onRetry);
+    configureRetryButton(retry, "Recalibrar formulario →", onRetry);
     notice.append(retry);
   }
 

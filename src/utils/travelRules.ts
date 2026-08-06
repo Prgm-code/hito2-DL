@@ -14,7 +14,7 @@ export function requiresInsurance(location?: Location): boolean {
   return location?.dimension.toLowerCase() === "unknown";
 }
 
-export function getRiskLevel(location?: Location): Quote["risk"] {
+function getRiskLevel(location?: Location): Quote["risk"] {
   if (!location || location.residents.length === 0) return "Alto";
   if (requiresInsurance(location) || location.residents.length < 5) return "Medio";
   return "Bajo";
@@ -43,6 +43,7 @@ export function calculateQuote(
   };
 }
 
+// Reglas evaluadas antes de guardar una reserva.
 export function validateReservation(
   draft: ReservationDraft,
   destination: Location | undefined,
@@ -55,8 +56,7 @@ export function validateReservation(
 
   if (draft.passengerName.trim().length < 3) errors.push("Ingresa el nombre completo del pasajero.");
   if (!/^\S+@\S+\.\S+$/.test(draft.email)) errors.push("Ingresa un correo electrónico válido.");
-  if (!draft.originId || !draft.destinationId) errors.push("Selecciona el origen y el destino.");
-  if (draft.originId === draft.destinationId) errors.push("El origen y el destino no pueden ser iguales.");
+  if (!draft.destinationId) errors.push("Selecciona un destino.");
   if (!draft.travelDate || Number.isNaN(travelDate.getTime()) || travelDate <= today) {
     errors.push("La fecha del viaje debe ser futura.");
   }

@@ -1,7 +1,7 @@
+const ERROR_PREVIEW_PARAM = "apiError";
+
 /** Categorías que la interfaz usa para presentar cada anomalía. */
 export type ApiErrorKind =
-  | "bad-request"
-  | "forbidden"
   | "not-found"
   | "timeout"
   | "rate-limit"
@@ -17,7 +17,6 @@ export interface ApiErrorView {
   title: string;
   message: string;
   hint: string;
-  canRetry: boolean;
 }
 
 /** Error tipado producido al consultar Rick and Morty API. */
@@ -37,13 +36,39 @@ export class RickAndMortyApiError extends Error {
   }
 }
 
-/**
- * Convierte cualquier valor capturado por `catch` en un error estable.
- *
- * @param error Valor desconocido recibido por el bloque `catch`.
- * @returns Error normalizado de Rick and Morty API.
- */
-export function normalizeRickAndMortyError(error: unknown): RickAndMortyApiError {
+/** Simula un error desde `?apiError=404` para revisar la interfaz. */
+export function throwPreviewError(): void {
+  if (typeof window === "undefined") return;
+  const status = Number(new URLSearchParams(window.location.search).get(ERROR_PREVIEW_PARAM));
+  if (Number.isInteger(status) && status >= 400 && status <= 599) {
+    throw new RickAndMortyApiError(
+      `Error HTTP ${status} simulado para revisar la interfaz.`,
+      status,
+    );
+  }
+}
+
+/** Convierte una respuesta HTTP fallida en el error correspondiente. */
+export function createRickAndMortyHttpError(response: Response): RickAndMortyApiError {
+  return new RickAndMortyApiError(
+    `La API respondió con el código ${response.status}`,
+    response.status,
+  );
+}
+
+// Los valores capturados como unknown se convierten a un error estable y tipado.
+export function normalizeRickAndMortyError(
+  error: unknown,
+  aborted = false,
+): RickAndMortyApiError {
+  if (aborted) {
+    return new RickAndMortyApiError(
+      "La API no respondió dentro del tiempo esperado.",
+      408,
+      error,
+    );
+  }
+
   if (error instanceof RickAndMortyApiError) return error;
 
   if (error instanceof TypeError) {
@@ -70,26 +95,6 @@ export function getRickAndMortyErrorView(error: unknown): ApiErrorView {
   const apiError = normalizeRickAndMortyError(error);
   const status = apiError.status;
 
-  if (status === 400) return {
-    kind: "bad-request",
-    code: "HTTP 400",
-    status,
-    title: "Coordenadas interdimensionales corruptas",
-    message: "El arma de portales rechazó los parámetros enviados.",
-    hint: "Revisa los filtros o vuelve a las coordenadas iniciales.",
-    canRetry: true,
-  };
-
-  if (status === 401 || status === 403) return {
-    kind: "forbidden",
-    code: `HTTP ${status}`,
-    status,
-    title: "Acceso bloqueado por la Ciudadela",
-    message: "El Consejo de Ricks no autorizó el ingreso a este sector.",
-    hint: "Regresa a la agencia o intenta abrir otro portal.",
-    canRetry: false,
-  };
-
   if (status === 404) return {
     kind: "not-found",
     code: "HTTP 404",
@@ -97,7 +102,6 @@ export function getRickAndMortyErrorView(error: unknown): ApiErrorView {
     title: "Dimensión perdida",
     message: "La dimensión solicitada desapareció del mapa multiversal o nunca existió.",
     hint: "Prueba otro nombre, tipo de destino o página del catálogo.",
-    canRetry: true,
   };
 
   if (status === 408) return {
@@ -107,7 +111,6 @@ export function getRickAndMortyErrorView(error: unknown): ApiErrorView {
     title: "El portal agotó su tiempo",
     message: "La conexión se cerró antes de recibir las coordenadas completas.",
     hint: "Recalibra el portal e intenta nuevamente.",
-    canRetry: true,
   };
 
   if (status === 429) return {
@@ -116,8 +119,7 @@ export function getRickAndMortyErrorView(error: unknown): ApiErrorView {
     status,
     title: "Demasiados portales abiertos",
     message: "La red interdimensional está saturada por exceso de saltos.",
-    hint: "Espera unos segundos antes de volver a intentarlo.",
-    canRetry: true,
+    hint: "Vuelve a intentarlo cuando quieras recalibrar el portal.",
   };
 
   if (status !== undefined && status >= 500) return {
@@ -127,7 +129,6 @@ export function getRickAndMortyErrorView(error: unknown): ApiErrorView {
     title: "La Ciudadela está fuera de servicio",
     message: "Los servidores multiversales sufren una anomalía temporal.",
     hint: "Tu reserva está segura. Intenta abrir el portal más tarde.",
-    canRetry: true,
   };
 
   if (status === undefined && apiError.originalError instanceof TypeError) return {
@@ -136,7 +137,6 @@ export function getRickAndMortyErrorView(error: unknown): ApiErrorView {
     title: "Se perdió la señal interdimensional",
     message: "No logramos contactar con Rick and Morty API.",
     hint: "Comprueba tu conexión y vuelve a calibrar el portal.",
-    canRetry: true,
   };
 
   return {
@@ -146,6 +146,5 @@ export function getRickAndMortyErrorView(error: unknown): ApiErrorView {
     title: "Anomalía multiversal inesperada",
     message: "Algo alteró la trayectoria de la petición.",
     hint: "Intenta nuevamente; si continúa, regresa a la agencia.",
-    canRetry: true,
   };
 }

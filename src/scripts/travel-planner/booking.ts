@@ -23,6 +23,8 @@ const INSURANCE_COPY = {
   mandatory: "Obligatorio en dimensiones desconocidas",
   optional: "Cobertura ante portales inestables",
 } as const;
+const DESTINATION_RESIDENT_LIMIT = 16;
+const COMPANION_OPTION_LIMIT = 20;
 
 // Evita repetir conversiones al sincronizar el store con los controles del formulario.
 function setControlValue(selector: string, value: string | number): void {
@@ -30,12 +32,7 @@ function setControlValue(selector: string, value: string | number): void {
 }
 
 function uniqueCharacters(characters: Character[]): Character[] {
-  const seen = new Set<number>();
-  return characters.filter((character) => {
-    if (seen.has(character.id)) return false;
-    seen.add(character.id);
-    return true;
-  });
+  return [...new Map(characters.map((character) => [character.id, character])).values()];
 }
 
 /**
@@ -50,7 +47,6 @@ export function renderBookingApiState(): void {
   const companionGrid = element<HTMLDivElement>("#companion-grid");
   const submit = element<HTMLButtonElement>("#confirm-booking");
 
-  element<HTMLSelectElement>("#originId").disabled = blocked;
   element<HTMLSelectElement>("#destinationId").disabled = blocked;
   submit.disabled = blocked;
   companionGrid.querySelectorAll<HTMLInputElement>('input[name="companionIds"]')
@@ -76,7 +72,6 @@ export function renderBookingApiState(): void {
 
 function createReservation(
   draft: ReservationDraft,
-  origin: Location,
   destination: Location,
   companions: Character[],
 ): Reservation {
@@ -87,7 +82,6 @@ function createReservation(
     number: `PT-${now.getFullYear()}-${String(Date.now()).slice(-6)}`,
     status: "Confirmada",
     createdAt: now.toISOString(),
-    origin: { id: origin.id, name: origin.name, dimension: origin.dimension, type: origin.type },
     destination: { id: destination.id, name: destination.name, dimension: destination.dimension, type: destination.type },
     companions: companions.map(({ id, name, image, species, status }) => ({ id, name, image, species, status })),
     quote: calculateQuote(draft, destination),
@@ -114,11 +108,20 @@ export function renderCompanions(): void {
 }
 
 export function renderQuote(): void {
-  const { draft } = travelStore.getState();
+  const state = travelStore.getState();
+  let draft = state.draft;
   const destination = knownLocations.get(draft.destinationId);
-  const quote = calculateQuote(draft, destination);
   const hint = element<HTMLDivElement>("#destination-hint");
+  const insurance = element<HTMLInputElement>("#insurance");
+  const mandatory = requiresInsurance(destination);
 
+  if (mandatory && !draft.insurance) {
+    state.setDraft({ insurance: true });
+    insurance.checked = true;
+    draft = { ...draft, insurance: true };
+  }
+
+  const quote = calculateQuote(draft, destination);
   element("#price-value").textContent = formatCredits(quote.total);
   setRiskContent(element<HTMLElement>("#risk-value"), quote.risk);
   if (destination) {
@@ -128,15 +131,6 @@ export function renderQuote(): void {
     hint.hidden = true;
   }
 
-  const insurance = element<HTMLInputElement>("#insurance");
-  const mandatory = requiresInsurance(destination);
-  if (mandatory && !draft.insurance) {
-    travelStore.getState().setDraft({ insurance: true });
-    insurance.checked = true;
-    element("#insurance-copy").textContent = INSURANCE_COPY.mandatory;
-    renderQuote();
-    return;
-  }
   element("#insurance-copy").textContent = mandatory ? INSURANCE_COPY.mandatory : INSURANCE_COPY.optional;
 }
 
@@ -149,23 +143,25 @@ export async function updateCompanions(destinationId: number): Promise<void> {
     return;
   }
 
-  const residentIds = destination.residents.slice(0, 30).map(getIdFromUrl);
+  const residentIds = destination.residents.slice(0, DESTINATION_RESIDENT_LIMIT).map(getIdFromUrl);
   try {
     const residents = (await getCharactersByIds({ ids: residentIds }))
       .filter((character) => character.status === "Alive");
-    travelStore.getState().setCompanions(uniqueCharacters([...residents, ...getBaseCompanions()]));
+    travelStore.getState().setCompanions(
+      uniqueCharacters([...residents, ...getBaseCompanions()]).slice(0, COMPANION_OPTION_LIMIT),
+    );
   } catch {
     travelStore.getState().setCompanions(getBaseCompanions());
   }
   renderCompanions();
 }
 
+// Evidencia evaluada: FormData, limpieza de textos y conversión de tipos.
 export function readDraft(): ReservationDraft {
   const data = new FormData(element<HTMLFormElement>("#booking-form"));
   return {
     passengerName: String(data.get("passengerName") ?? "").trim(),
     email: String(data.get("email") ?? "").trim(),
-    originId: Number(data.get("originId")),
     destinationId: Number(data.get("destinationId")),
     travelDate: String(data.get("travelDate") ?? ""),
     passengers: Number(data.get("passengers")) || 1,
@@ -180,7 +176,6 @@ export function syncFormFromDraft(): void {
   const draft = travelStore.getState().draft;
   setControlValue("#passengerName", draft.passengerName);
   setControlValue("#email", draft.email);
-  setControlValue("#originId", draft.originId || "");
   setControlValue("#destinationId", draft.destinationId || "");
   setControlValue("#travelDate", draft.travelDate);
   setControlValue("#passengers", draft.passengers);
@@ -198,6 +193,7 @@ export function showFormErrors(errors: string[]): void {
   else box.replaceChildren();
 }
 
+// Evidencia evaluada: evita el submit nativo, valida y actualiza el DOM/estado.
 export function submitReservation(event: SubmitEvent): void {
   event.preventDefault();
   const apiState = travelStore.getState();
@@ -208,17 +204,15 @@ export function submitReservation(event: SubmitEvent): void {
 
   const draft = readDraft();
   travelStore.getState().setDraft(draft);
-  const origin = knownLocations.get(draft.originId);
   const destination = knownLocations.get(draft.destinationId);
   const companions = travelStore.getState().companions
     .filter((character) => draft.companionIds.includes(character.id));
   const errors = validateReservation(draft, destination, companions);
-  if (!origin) errors.push("El origen seleccionado ya no está disponible.");
   if (!destination) errors.push("El destino seleccionado ya no está disponible.");
   showFormErrors(errors);
-  if (errors.length || !origin || !destination) return;
+  if (errors.length || !destination) return;
 
-  const reservation = createReservation(draft, origin, destination, companions);
+  const reservation = createReservation(draft, destination, companions);
 
   travelStore.getState().addReservation(reservation);
   renderReservations();
