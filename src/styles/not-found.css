@@ -68,7 +68,7 @@
   align-items: center;
   gap: 9px;
   color: #aeb9b0;
-  font-size: 9px;
+  font-size: 13px;
   font-weight: 750;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -108,7 +108,7 @@
   border-radius: 999px;
   color: #c8d4c9;
   background: rgba(169, 245, 44, .06);
-  font-size: 9px;
+  font-size: 13px;
   font-weight: 750;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -117,7 +117,7 @@
 .eyebrow {
   margin: 28px 0 8px;
   color: var(--green);
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 800;
   letter-spacing: .17em;
   text-transform: uppercase;
@@ -139,7 +139,7 @@
   max-width: 540px;
   margin: 24px 0 0;
   color: #9daaa0;
-  font-size: 13px;
+  font-size: 17px;
   line-height: 1.75;
 }
 
@@ -155,7 +155,7 @@
   border-radius: 10px;
   color: #7f8c82;
   background: rgba(255, 255, 255, .025);
-  font-size: 9px;
+  font-size: 13px;
   text-transform: uppercase;
 }
 
@@ -163,7 +163,7 @@
   overflow: hidden;
   color: #dce5dd;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 10px;
+  font-size: 14px;
   text-overflow: ellipsis;
   text-transform: none;
   white-space: nowrap;
@@ -184,7 +184,7 @@
   justify-content: center;
   gap: 18px;
   border-radius: 999px;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 800;
   transition: transform .2s ease, border-color .2s ease, background .2s ease;
 }
@@ -376,7 +376,7 @@
   border-radius: 8px;
   color: #bac5bc;
   background: rgba(7, 17, 13, .72);
-  font-size: 8px;
+  font-size: 12px;
   font-weight: 750;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -392,7 +392,7 @@
   justify-content: space-between;
   border-top: 1px solid rgba(255, 255, 255, .08);
   color: #718077;
-  font-size: 9px;
+  font-size: 13px;
 }
 
 .challenge-credit {

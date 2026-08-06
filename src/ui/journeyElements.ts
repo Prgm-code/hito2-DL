@@ -344,20 +344,20 @@ export function createJourneyError(error: ApiErrorView | string): DocumentFragme
       text: isApiError ? String(error.status ?? "OFF") : "!",
     }),
     isApiError && createElement("span", {
-      className: "rounded-full border border-[#f38c75]/30 bg-[#f38c75]/10 px-3 py-1 font-mono text-[9px] font-bold tracking-[.12em] text-[#f38c75]",
+      className: "rounded-full border border-[#f38c75]/30 bg-[#f38c75]/10 px-3 py-1 font-mono text-[13px] font-bold tracking-[.12em] text-[#f38c75]",
       text: `CÓDIGO · ${error.code}`,
     }),
     createElement("h1", { text: title }),
     createElement("p", { text: message }),
     isApiError && createElement("small", {
-      className: "mt-2 text-[10px] leading-relaxed text-[#748178]",
+      className: "mt-2 text-[14px] leading-relaxed text-[#748178]",
       text: error.hint,
     }),
   );
 
   const actions = createElement("div", { className: "mt-5 flex flex-wrap justify-center gap-2.5" });
   if (isApiError && error.canRetry) actions.append(createElement("button", {
-    className: "cursor-pointer rounded-full border-0 bg-[var(--green)] px-4 py-2.5 text-[10px] font-extrabold text-[var(--night)]",
+    className: "cursor-pointer rounded-full border-0 bg-[var(--green)] px-4 py-2.5 text-[14px] font-extrabold text-[var(--night)]",
     text: "Reintentar salto",
     attrs: { type: "button" },
     dataset: { retryJourney: "true" },

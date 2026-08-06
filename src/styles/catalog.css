@@ -16,7 +16,7 @@
 .destination-photos img { position: relative; z-index: 1; width: 100%; height: 104px; object-fit: cover; color: transparent; filter: saturate(.72) contrast(1.03); }
 .photo-fallback { position: absolute; inset: 0; z-index: 0; display: grid; place-items: center; color: var(--green); font-size: 50px; line-height: 1; opacity: .65; text-shadow: 0 0 18px rgba(169,245,44,.45); }
 .photo-shade { position: absolute; inset: 0; z-index: 2; background: linear-gradient(180deg,transparent 35%,rgba(4,15,10,.64)); }
-.photo-label { position: absolute; z-index: 3; bottom: 7px; left: 9px; color: rgba(255,255,255,.82); font-size: 7px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+.photo-label { position: absolute; z-index: 3; bottom: 8px; left: 10px; color: rgba(255,255,255,.88); font-size: 12px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
 
 .art-0 { background: radial-gradient(circle at 35% 22%,#416c54,#10261e 58%,#07110d); }
 .art-1 { background: radial-gradient(circle at 70% 30%,#7a651d,#332d18 50%,#0d1612); }
@@ -24,21 +24,21 @@
 .art-3 { background: radial-gradient(circle at 35% 40%,#6b485f,#30202d 55%,#100d11); }
 .star-field { position: absolute; inset: 0; opacity: .55; background-image: radial-gradient(circle,white 0 1px,transparent 1px); background-size: calc(17px + var(--location-seed) * .03px) 19px; }
 .location-orb { position: relative; z-index: 1; display: grid; width: 49px; height: 49px; place-items: center; border-radius: 50%; color: var(--green); background: rgba(169,245,44,.08); font-size: 42px; line-height: 1; text-shadow: 0 0 14px var(--green); }
-.coordinate { position: absolute; right: 9px; bottom: 7px; z-index: 3; color: rgba(255,255,255,.52); font-family: monospace; font-size: 7px; letter-spacing: .1em; }
+.coordinate { position: absolute; right: 10px; bottom: 8px; z-index: 3; color: rgba(255,255,255,.65); font-family: monospace; font-size: 12px; letter-spacing: .08em; }
 
 .card-content { padding: 13px; }
-.card-topline { display: flex; align-items: center; justify-content: space-between; gap: 5px; color: #738077; font-size: 8px; text-transform: uppercase; letter-spacing: .07em; }
+.card-topline { display: flex; align-items: center; justify-content: space-between; gap: 5px; color: #738077; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
 .card-topline > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.card-content h3 { min-height: 32px; margin: 8px 0 5px; font-size: 14px; line-height: 1.15; letter-spacing: -.025em; }
-.dimension { display: flex; align-items: center; gap: 5px; margin: 0; overflow: hidden; color: #7a867e; font-size: 8px; white-space: nowrap; text-overflow: ellipsis; }
+.card-content h3 { min-height: 38px; margin: 9px 0 6px; font-size: 17px; line-height: 1.15; letter-spacing: -.025em; }
+.dimension { display: flex; align-items: center; gap: 5px; margin: 0; overflow: hidden; color: #7a867e; font-size: 12px; white-space: nowrap; text-overflow: ellipsis; }
 .dimension svg { flex: 0 0 auto; width: 11px; fill: none; stroke: currentColor; stroke-width: 1.5; }
-.card-footer { display: flex; justify-content: space-between; align-items: center; gap: 5px; margin-top: 12px; padding-top: 10px; border-top: 1px solid #edf0ec; color: #879188; font-size: 8px; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; gap: 5px; margin-top: 13px; padding-top: 11px; border-top: 1px solid #edf0ec; color: #879188; font-size: 12px; }
 .card-footer b { color: var(--ink); }
-.card-footer button { padding: 0; border: 0; color: #517618; background: none; cursor: pointer; font-size: 8px; font-weight: 800; }
+.card-footer button { padding: 0; border: 0; color: #517618; background: none; cursor: pointer; font-size: 12px; font-weight: 800; }
 .card-footer button:hover { color: #2f4e00; }
 .card-footer button span { margin-left: 3px; }
 
-.risk { display: inline-flex; align-items: center; gap: 5px; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+.risk { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 800; text-transform: uppercase; }
 .risk i { width: 6px; height: 6px; border-radius: 50%; }
 .risk.alto { color: #b84936; }
 .risk.alto i { background: var(--red); box-shadow: 0 0 0 3px rgba(240,109,86,.13); }
@@ -47,7 +47,7 @@
 .risk.bajo { color: #5b821f; }
 .risk.bajo i { background: #78ad27; }
 
-.skeleton-card { height: 228px; padding: 10px; }
+.skeleton-card { height: 246px; padding: 10px; }
 .skeleton-card > * { display: block; border-radius: 7px; background: linear-gradient(90deg,#edf0eb,#f8faf6,#edf0eb); background-size: 200% 100%; animation: shimmer 1.2s infinite; }
 .skeleton-card div { height: 100px; }
 .skeleton-card span { height: 13px; margin-top: 16px; }

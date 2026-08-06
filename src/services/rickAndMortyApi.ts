@@ -105,7 +105,7 @@ async function request<T>(pathOrUrl: string, control: ApiRequestControl = {}): P
  * @example
  * await getLocations({ page: 1, name: "Earth", type: "Planet" });
  */
-export async function getLocations(filters: LocationsRequest = {}): Promise<ApiPage<Location>> {
+export  function getLocations(filters: LocationsRequest = {}): Promise<ApiPage<Location>> {
   const { page = 1, name, type, dimension } = filters;
   const params = new URLSearchParams({ page: String(page) });
   if (name?.trim()) params.set("name", name.trim());
@@ -124,7 +124,7 @@ export async function getLocations(filters: LocationsRequest = {}): Promise<ApiP
  * @example
  * await getCharacters({ status: "alive", species: "Human" });
  */
-export async function getCharacters(filters: CharactersRequest = {}): Promise<ApiPage<Character>> {
+export  function getCharacters(filters: CharactersRequest = {}): Promise<ApiPage<Character>> {
   const { page = 1, name, status, species, type, gender } = filters;
   const params = new URLSearchParams({ page: String(page) });
   if (status) params.set("status", status);
