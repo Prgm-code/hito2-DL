@@ -1,0 +1,13 @@
+---
+import PortalLogo from "./PortalLogo.astro";
+---
+
+<header class="site-header mx-auto grid h-[78px] w-[calc(100%_-_56px)] max-w-[1440px] grid-cols-[1fr_auto_1fr] items-center border-b border-[#1020191a] max-[1100px]:w-[calc(100%_-_40px)] max-[820px]:grid-cols-[1fr_auto] max-[650px]:w-[calc(100%_-_28px)]">
+  <PortalLogo />
+  <nav class="flex items-center gap-9 max-[1100px]:gap-5 max-[820px]:hidden" aria-label="Navegación principal">
+    <a class="nav-link active relative border-0 bg-transparent py-[9px] text-[13px] font-semibold text-[var(--ink)] after:absolute after:inset-x-0 after:bottom-[-21px] after:h-0.5 after:bg-[var(--green-dark)] after:content-['']" href="#destinos">Destinos</a>
+    <button class="nav-link relative cursor-pointer border-0 bg-transparent py-[9px] text-[13px] font-semibold text-[#657269] hover:text-[var(--ink)]" id="header-reservations" type="button">Mis reservas</button>
+    <a class="nav-link relative border-0 bg-transparent py-[9px] text-[13px] font-semibold text-[#657269] hover:text-[var(--ink)]" href="#como-funciona">Cómo funciona</a>
+  </nav>
+  <a href="#reserva" class="header-cta flex items-center justify-self-end gap-[26px] rounded-full border border-[#102019] px-[18px] py-[11px] text-xs font-extrabold transition hover:-translate-y-px hover:bg-[var(--ink)] hover:text-white max-[650px]:gap-2 max-[650px]:px-[13px] max-[460px]:text-[10px]">Planear mi viaje <span class="max-[460px]:hidden" aria-hidden="true">→</span></a>
+</header>

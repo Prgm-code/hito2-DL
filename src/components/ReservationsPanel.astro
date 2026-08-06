@@ -1,0 +1,11 @@
+---
+import "../styles/reservations-dynamic.css";
+---
+
+<section class="view-panel reservations-panel min-h-[600px] scroll-mt-5 rounded-[var(--radius)] border border-[var(--line)] bg-white/90 px-7 pb-7 pt-[88px] shadow-[var(--shadow)] backdrop-blur-xl max-[650px]:rounded-2xl max-[650px]:px-[19px] max-[650px]:pb-[19px] max-[650px]:pt-[79px] max-[460px]:p-[73px_15px_15px]" data-panel="reservations" role="tabpanel" aria-labelledby="reservations-tab" hidden>
+  <div class="catalog-heading mb-[21px] flex items-end justify-between">
+    <div><span class="section-kicker text-[10px] font-[850] uppercase tracking-[.19em] text-[#4f6c5b]">BITÁCORA DE VIAJE</span><h2 class="mt-1 text-[25px] tracking-[-.045em] max-[460px]:text-[22px]">Mis reservas</h2></div>
+    <p class="mb-[3px] text-[9px] text-[#8a958e] before:mr-1.5 before:inline-block before:size-1.5 before:rounded-full before:bg-[#72b71e] before:shadow-[0_0_0_3px_rgba(114,183,30,.1)] before:content-[''] max-[650px]:hidden">Guardadas en este dispositivo</p>
+  </div>
+  <div id="reservations-list" class="reservations-list grid gap-2.5"></div>
+</section>

@@ -1,23 +1,30 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import "../styles/global.css";
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Portal Trip — Viajes interdimensionales",
+  description = "Reserva viajes seguros por todo el multiverso de Rick and Morty.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html class="scroll-smooth bg-[var(--paper)]" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#07110d" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen min-w-80 overflow-x-hidden bg-[var(--paper)] text-[var(--ink)]">
+    <slot />
+  </body>
+</html>

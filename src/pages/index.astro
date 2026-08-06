@@ -1,11 +1,73 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import PortalLogo from "../components/PortalLogo.astro";
+import BookingPanel from "../components/BookingPanel.astro";
+import DestinationCatalog from "../components/DestinationCatalog.astro";
+import ReservationsPanel from "../components/ReservationsPanel.astro";
+import "../styles/home.css";
 ---
 
 <Layout>
-	<Welcome />
+  <div class="pointer-events-none fixed right-[-260px] top-[220px] -z-[1] size-[520px] rounded-full bg-[radial-gradient(circle,rgba(169,245,44,.13),transparent_68%)] blur-[2px]" aria-hidden="true"></div>
+  <div class="pointer-events-none fixed left-[-270px] top-[760px] -z-[1] size-[440px] rounded-full bg-[radial-gradient(circle,rgba(121,216,230,.13),transparent_68%)] blur-[2px]" aria-hidden="true"></div>
+
+  <Header />
+
+  <main class="mx-auto w-[calc(100%_-_80px)] max-w-[1360px] max-[1100px]:w-[calc(100%_-_40px)] max-[650px]:w-[calc(100%_-_24px)]">
+    <section class="relative flex min-h-[92px] items-center justify-center overflow-hidden px-[3%] py-1.5 max-[1100px]:min-h-[88px] max-[1100px]:px-[2%] max-[820px]:min-h-[78px] max-[820px]:py-4 max-[650px]:min-h-[72px] max-[650px]:px-1 max-[650px]:py-[3px] max-[460px]:min-h-[66px]" aria-label="Portal interdimensional">
+      <div class="relative z-[2] min-w-0 flex-1 max-[820px]:w-full">
+        <span class="inline-flex items-center gap-2 text-[10px] font-[850] uppercase tracking-[.19em] text-[#4f6c5b]"><span class="size-[7px] rounded-full bg-[var(--green)] shadow-[0_0_0_5px_rgba(169,245,44,.16)]"></span> Agencia interdimensional certificada</span>
+        <h1 class="my-[10px_8px] max-w-none text-[clamp(31px,3.1vw,48px)] font-[820] leading-none tracking-[-.055em] max-[650px]:max-w-[560px] max-[650px]:text-[35px] max-[460px]:text-[31px]" id="hero-title">Tu próxima historia comienza <em class="inline font-serif font-medium text-[var(--green-dark)]">en otro universo.</em></h1>
+        <p class="m-0 max-w-[680px] text-xs leading-normal text-[var(--muted)] max-[650px]:max-w-[520px] max-[650px]:text-[11px]">
+          Explora planetas, estaciones y dimensiones fuera de este mundo. Tú eliges el destino;
+          nosotros calculamos el riesgo.
+        </p>
+        <div class="mt-[15px] flex gap-[25px] max-[650px]:gap-[18px]" aria-label="Estadísticas del catálogo">
+          <div class="flex flex-col"><strong class="text-lg leading-none tracking-[-.04em] max-[460px]:text-[17px]" id="location-count">126</strong><span class="mt-[3px] text-[7px] uppercase tracking-[.11em] text-[#758078]">destinos</span></div>
+          <div class="flex flex-col border-l border-[var(--line)] pl-[25px] max-[650px]:pl-[18px]"><strong class="text-lg leading-none tracking-[-.04em] max-[460px]:text-[17px]" id="character-count">826</strong><span class="mt-[3px] text-[7px] uppercase tracking-[.11em] text-[#758078]">personajes</span></div>
+          <div class="flex flex-col border-l border-[var(--line)] pl-[25px] max-[650px]:pl-[18px]"><strong class="text-lg leading-none tracking-[-.04em] max-[460px]:text-[17px]" id="episode-count">51</strong><span class="mt-[3px] text-[7px] uppercase tracking-[.11em] text-[#758078]">episodios</span></div>
+        </div>
+      </div>
+
+      <div class="relative grid h-[88px] w-[190px] flex-none place-items-center max-[820px]:absolute max-[820px]:right-[-25px] max-[820px]:top-1/2 max-[820px]:h-[74px] max-[820px]:-translate-y-1/2 max-[820px]:opacity-10 max-[460px]:h-16 max-[460px]:scale-[.85]" aria-hidden="true">
+        <div class="absolute h-[68px] w-[134px] -rotate-[18deg] rounded-full border border-[rgba(70,97,83,.22)] max-[1100px]:w-[130px]"><i class="absolute right-14 top-[22px] block size-[9px] rounded-full bg-[var(--ink)]"></i><i class="absolute left-3.5 top-[114px] block size-[5px] rounded-full bg-[var(--green-dark)]"></i><i class="absolute bottom-20 right-2.5 block size-1.5 rounded-full bg-[var(--orange)]"></i></div>
+        <div class="absolute h-[82px] w-[105px] rotate-[46deg] rounded-full border border-[rgba(70,97,83,.22)] max-[1100px]:w-[102px]"></div>
+        <div class="portal">
+          <div class="portal-core">
+            <svg viewBox="0 0 120 120" role="img">
+              <path d="M37 74c1-13 10-22 23-22 11 0 18 6 22 16 2 7 8 12 15 14-8 6-21 9-36 6-10-2-18-7-24-14Z" fill="#07110d" opacity=".83"/>
+              <circle cx="46" cy="46" r="8" fill="#07110d" opacity=".83"/>
+              <path d="m41 37-5-14 10 8 5-14 4 15 12-10-4 16" fill="#07110d" opacity=".83"/>
+            </svg>
+          </div>
+        </div>
+        <span class="absolute bottom-[19px] left-[17%] block size-[11px] rounded-full bg-[repeating-linear-gradient(20deg,#6b8e85_0_3px,#d5e2dd_4px_6px)] shadow-[-3px_2px_0_rgba(7,17,13,.14)]"></span><span class="absolute right-[19%] top-3.5 block size-1.5 rounded-full bg-[var(--orange)] shadow-[0_0_0_3px_rgba(255,172,66,.13)]"></span>
+      </div>
+    </section>
+
+    <section class="workspace grid grid-cols-[minmax(390px,470px)_minmax(0,1fr)] items-start gap-[30px] pb-[90px] max-[1100px]:grid-cols-[390px_minmax(0,1fr)] max-[820px]:grid-cols-1 max-[460px]:gap-4" aria-label="Planificador de viajes">
+      <BookingPanel />
+      <div class="catalog-column relative min-w-0">
+        <div class="view-tabs absolute inset-x-0 top-0 z-[3] flex h-[62px] gap-[25px] border-b border-[var(--line)] px-7 max-[650px]:h-[58px] max-[650px]:px-[19px] max-[460px]:h-[54px] max-[460px]:px-[15px]" role="tablist" aria-label="Secciones">
+          <button class="view-tab active relative cursor-pointer border-0 bg-transparent text-xs font-bold text-[#7a857e] after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:scale-x-0 after:bg-[var(--green-dark)] after:transition-transform after:content-[''] aria-selected:text-[var(--ink)] aria-selected:after:scale-x-100" id="destinations-tab" data-view="destinations" role="tab" aria-selected="true">
+            Explorar destinos
+          </button>
+          <button class="view-tab relative cursor-pointer border-0 bg-transparent text-xs font-bold text-[#7a857e] after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:scale-x-0 after:bg-[var(--green-dark)] after:transition-transform after:content-[''] aria-selected:text-[var(--ink)] aria-selected:after:scale-x-100" id="reservations-tab" data-view="reservations" role="tab" aria-selected="false">
+            Mis reservas <span id="reservation-count" class="ml-1 inline-grid h-[18px] min-w-[18px] place-items-center rounded-[9px] bg-[#e1e7df] text-[9px]">0</span>
+          </button>
+        </div>
+        <DestinationCatalog />
+        <ReservationsPanel />
+      </div>
+    </section>
+  </main>
+
+  <footer class="mx-auto flex min-h-[100px] w-[calc(100%_-_80px)] max-w-[1360px] items-center justify-between border-t border-[var(--line)] max-[1100px]:w-[calc(100%_-_40px)] max-[650px]:w-[calc(100%_-_28px)] max-[650px]:flex-col max-[650px]:justify-center max-[650px]:gap-[14px] max-[650px]:text-center">
+    <PortalLogo class="opacity-80" />
+    <p class="text-[9px] text-[#8a958e]">Viajes interdimensionales desde la Tierra C-137 · Datos de Rick and Morty API</p>
+  </footer>
+
+  <div id="toast-region" class="fixed bottom-[22px] right-[22px] z-50 grid gap-2 max-[460px]:inset-x-3 max-[460px]:bottom-3" aria-live="polite"></div>
+  <script src="../scripts/app.ts"></script>
 </Layout>
