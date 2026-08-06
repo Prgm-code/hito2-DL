@@ -15,7 +15,7 @@ import {
 } from "./rickAndMortyApiError";
 
 const API_URL = "https://rickandmortyapi.com/api";
-const DEFAULT_TIMEOUT_MS = 3_000; // 3 segundos para testear los errores de la ui
+const DEFAULT_TIMEOUT_MS = 6_000; // 6 segundos para testear los errores de la ui
 const ERROR_PREVIEW_PARAM = "apiError";
 
 // Un contador evita que varias peticiones paralelas desactiven `loading`
