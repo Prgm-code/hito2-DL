@@ -1,0 +1,124 @@
+---
+import {
+  IconArrowLeft,
+  IconArrowRight,
+  IconMapPinQuestion,
+  IconSparkles,
+} from "@tabler/icons-astro";
+import Layout from "../layouts/Layout.astro";
+import PortalLogo from "../components/PortalLogo.astro";
+import "../styles/not-found.css";
+---
+
+<Layout
+  title="Dimensión no encontrada — Portal Trip"
+  description="La coordenada interdimensional que buscas no existe o cambió de universo."
+>
+  <div class="not-found-shell">
+    <div class="space-noise" aria-hidden="true"></div>
+    <div class="orbit orbit-one" aria-hidden="true"></div>
+    <div class="orbit orbit-two" aria-hidden="true"></div>
+
+    <header class="not-found-header">
+      <PortalLogo theme="dark" />
+      <span class="agency-status">
+        <i aria-hidden="true"></i>
+        Agencia interdimensional certificada
+      </span>
+    </header>
+
+    <main class="not-found-main">
+      <section class="not-found-copy" aria-labelledby="not-found-title">
+        <div class="error-pill">
+          <IconMapPinQuestion size={15} stroke={1.8} aria-hidden="true" />
+          Error de coordenadas · 404
+        </div>
+
+        <p class="eyebrow">Houston... o Tierra C-137</p>
+        <h1 id="not-found-title">
+          Esta dimensión<br />
+          <span>no está en el mapa.</span>
+        </h1>
+        <p class="error-message">
+          El portal abrió en el lugar equivocado. La ruta pudo cambiar de
+          universo, quedar fuera de servicio o nunca haber existido.
+        </p>
+
+        <div class="route-readout" aria-label="Ruta no encontrada">
+          <span>Coordenada solicitada</span>
+          <code id="missing-path">Cargando coordenada...</code>
+        </div>
+
+        <div class="error-actions">
+          <a class="primary-action" href="/">
+            Volver a Tierra C-137
+            <IconArrowRight size={17} stroke={2} aria-hidden="true" />
+          </a>
+          <button class="secondary-action" id="go-back" type="button">
+            <IconArrowLeft size={16} stroke={2} aria-hidden="true" />
+            Regresar
+          </button>
+        </div>
+      </section>
+
+      <div class="portal-scene" aria-hidden="true">
+        <span class="star star-one"></span>
+        <span class="star star-two"></span>
+        <span class="star star-three"></span>
+        <span class="planet planet-small"></span>
+        <span class="planet planet-orange"></span>
+
+        <div class="portal-wrap">
+          <div class="portal-rings"></div>
+          <div class="portal-hole">
+            <span>4</span><span>0</span><span>4</span>
+          </div>
+          <div class="portal-spark spark-one"></div>
+          <div class="portal-spark spark-two"></div>
+          <div class="portal-spark spark-three"></div>
+        </div>
+
+        <div class="scanner-label">
+          <IconSparkles size={13} stroke={1.8} />
+          Portal inestable
+        </div>
+      </div>
+    </main>
+
+    <footer class="not-found-footer">
+      <p>Portal Trip · Viajes seguros por el multiverso</p>
+      <div class="challenge-credit">
+        <span>Una experiencia creada para</span>
+        <span class="challenge-logo">
+          <img
+            src="https://desafiolatam.com/logo-real.png"
+            width="345"
+            height="142"
+            alt="Desafío Latam"
+            loading="eager"
+          />
+        </span>
+      </div>
+    </footer>
+  </div>
+
+  <script is:inline>
+    const pathOutput = document.querySelector("#missing-path");
+    const backButton = document.querySelector("#go-back");
+
+    if (pathOutput instanceof HTMLElement) {
+      pathOutput.textContent = window.location.pathname;
+    }
+
+    if (backButton instanceof HTMLButtonElement) {
+      backButton.addEventListener("click", () => {
+        if (window.history.length > 1) {
+          window.history.back();
+          return;
+        }
+
+        window.location.assign("/");
+      });
+    }
+  </script>
+</Layout>
