@@ -1,12 +1,12 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "layouts/Layout.astro";
 import { Image } from "astro:assets";
-import Header from "../components/Header.astro";
-import PortalLogo from "../components/PortalLogo.astro";
-import BookingPanel from "../components/BookingPanel.astro";
-import DestinationCatalog from "../components/DestinationCatalog.astro";
-import ReservationsPanel from "../components/ReservationsPanel.astro";
-import "../styles/home.css";
+import Header from "components/Header.astro";
+import PortalLogo from "components/PortalLogo.astro";
+import BookingPanel from "components/BookingPanel.astro";
+import DestinationCatalog from "components/DestinationCatalog.astro";
+import ReservationsPanel from "components/ReservationsPanel.astro";
+import "styles/home.css";
 ---
 
 <Layout>
@@ -62,5 +62,7 @@ import "../styles/home.css";
   </footer>
 
   <div id="toast-region" class="fixed bottom-[22px] right-[22px] z-50 grid gap-2 max-[460px]:inset-x-3 max-[460px]:bottom-3" aria-live="polite"></div>
-  <script src="../scripts/app.ts"></script>
+  <script>
+    import "scripts/app";
+  </script>
 </Layout>

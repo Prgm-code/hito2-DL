@@ -2,21 +2,22 @@ import {
   getCharactersByIds,
   getIdFromUrl,
   getLocations,
-} from "../../services/rickAndMortyApi";
-import { travelStore } from "../../stores/travelStore";
-import type { Character, Location } from "../../types/rick-and-morty";
-import { createApiErrorPanel } from "../../ui/apiErrorElements";
-import { createDestinationCard, createEmptyState, createSkeletonCard, type RiskLabel } from "../../ui/appElements";
-import { createElement } from "../../ui/dom";
-import { calculateQuote } from "../../utils/travelRules";
-import { knownLocations, locationPreviews } from "./context";
-import { element } from "./helpers";
+} from "services/rickAndMortyApi";
+import { travelStore } from "stores/travelStore";
+import type { Character, Location } from "models/rick-and-morty";
+import { TripType, type RiskLevel } from "models/reservation";
+import { createApiErrorPanel } from "ui/apiErrorElements";
+import { createDestinationCard, createEmptyState, createSkeletonCard } from "ui/appElements";
+import { createElement } from "ui/dom";
+import { calculateQuote } from "utils/travelRules";
+import { knownLocations, locationPreviews } from "scripts/travel-planner/context";
+import { element } from "scripts/travel-planner/helpers";
 
 const PREVIEW_LIMIT_PER_LOCATION = 3;
 const SKELETON_COUNT = 6;
 
-function locationRisk(location: Location): RiskLabel {
-  return calculateQuote({ passengers: 1, tripType: "express", insurance: false }, location).risk;
+function locationRisk(location: Location): RiskLevel {
+  return calculateQuote({ passengers: 1, tripType: TripType.EXPRESS, insurance: false }, location).risk;
 }
 
 // Oculta solo la imagen fallida y recalcula el mosaico con las imágenes restantes.
@@ -111,13 +112,13 @@ export async function loadDestinationPreviews(locations: Location[]): Promise<vo
 // El servicio controla loading/error; este módulo decide cómo reflejarlos en el catálogo.
 export async function loadCatalog(page: number): Promise<void> {
   const state = travelStore.getState();
-  const locationsRequest = getLocations({ page, name: state.search, type: state.typeFilter });
-
-  // La llamada anterior activa `loading` de forma síncrona antes del primer `await`.
+  // La pauta exige feedback visible antes de disparar la llamada de red.
+  state.setError(null);
+  state.setLoading(true);
   renderCatalog();
 
   try {
-    const response = await locationsRequest;
+    const response = await getLocations({ page, name: state.search, type: state.typeFilter });
     response.results.forEach((location) => knownLocations.set(location.id, location));
     travelStore.getState().setCatalog(response.results, page, response.info.pages);
     updateLocationOptions();

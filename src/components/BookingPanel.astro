@@ -1,10 +1,10 @@
 ---
-import "../styles/booking-dynamic.css";
+import "styles/booking-dynamic.css";
 ---
 
-<aside class="booking-card sticky top-5 rounded-[var(--radius)] border border-[var(--line)] bg-white/90 p-[26px] shadow-[var(--shadow)] backdrop-blur-xl max-[820px]:static max-[650px]:rounded-2xl max-[650px]:p-[19px]" id="reserva">
-  <div class="booking-heading mb-6 flex items-center gap-[13px]">
-    <div class="grid size-[42px] place-items-center rounded-[13px] bg-[var(--mint)] text-[#345c0d]" aria-hidden="true">
+<aside class="booking-card sticky top-5 rounded-(--radius) border border-(--line) bg-white/90 p-6.5 shadow-(--shadow) backdrop-blur-xl max-[820px]:static max-[650px]:rounded-2xl max-[650px]:p-4.75" id="reserva">
+  <div class="booking-heading mb-6 flex items-center gap-3.25">
+    <div class="grid size-10.5 place-items-center rounded-[13px] bg-(--mint) text-[#345c0d]" aria-hidden="true">
       <svg class="w-5 fill-none stroke-current stroke-[1.7]" viewBox="0 0 24 24"><path d="M5 19 19 5M9 5h10v10M5 8v11h11"/></svg>
     </div>
     <div><span class="mb-0.5 block text-[10.5px] font-extrabold uppercase tracking-[.14em] text-[#829087]">Paso 1 de 1</span><h2 class="m-0 text-[23px] tracking-[-.035em]">Diseña tu viaje</h2></div>
@@ -13,17 +13,17 @@ import "../styles/booking-dynamic.css";
   <form id="booking-form" aria-describedby="booking-api-status" novalidate>
     <div id="booking-api-status" class="mb-3" aria-live="assertive" hidden></div>
     <div class="field-row grid grid-cols-2 gap-3 max-[460px]:grid-cols-1 max-[460px]:gap-0">
-      <label class="mb-[15px] block"><span class="mb-[7px] ml-0.5 flex justify-between text-[12px] font-extrabold tracking-[.01em]">Nombre del pasajero</span><input class="h-[46px] w-full rounded-[10px] border border-[#dce4dc] bg-[#fbfcf9] px-3 text-[13px] text-[var(--ink)] outline-none transition placeholder:text-[#a6afa9] focus:border-[#82b834] focus:shadow-[0_0_0_3px_rgba(169,245,44,.16)]" id="passengerName" name="passengerName" type="text" autocomplete="name" placeholder="Ej: Morty Smith" required /></label>
-      <label class="mb-[15px] block"><span class="mb-[7px] ml-0.5 flex justify-between text-[12px] font-extrabold tracking-[.01em]">Correo electrónico</span><input class="h-[46px] w-full rounded-[10px] border border-[#dce4dc] bg-[#fbfcf9] px-3 text-[13px] text-[var(--ink)] outline-none transition placeholder:text-[#a6afa9] focus:border-[#82b834] focus:shadow-[0_0_0_3px_rgba(169,245,44,.16)]" id="email" name="email" type="email" autocomplete="email" placeholder="morty@email.com" required /></label>
+      <label class="mb-3.75 block"><span class="mb-1.75 ml-0.5 flex justify-between text-[12px] font-extrabold tracking-[.01em]">Nombre del pasajero</span><input class="h-11.5 w-full rounded-[10px] border border-[#dce4dc] bg-[#fbfcf9] px-3 text-[13px] text-(--ink) outline-none transition placeholder:text-[#a6afa9] focus:border-[#82b834] focus:shadow-[0_0_0_3px_rgba(169,245,44,.16)]" id="passengerName" name="passengerName" type="text" autocomplete="name" placeholder="Ej: Morty Smith" required /></label>
+      <label class="mb-3.75 block"><span class="mb-1.75 ml-0.5 flex justify-between text-[12px] font-extrabold tracking-[.01em]">Correo electrónico</span><input class="h-11.5 w-full rounded-[10px] border border-[#dce4dc] bg-[#fbfcf9] px-3 text-[13px] text-(--ink) outline-none transition placeholder:text-[#a6afa9] focus:border-[#82b834] focus:shadow-[0_0_0_3px_rgba(169,245,44,.16)]" id="email" name="email" type="email" autocomplete="email" placeholder="morty@email.com" required /></label>
     </div>
 
-    <label class="mb-[15px] block"><span class="mb-[7px] ml-0.5 flex justify-between text-[12px] font-extrabold tracking-[.01em]">Destino</span><select class="h-[46px] w-full rounded-[10px] border border-[#dce4dc] bg-[#fbfcf9] px-3 pr-[30px] text-[13px] text-[var(--ink)] outline-none transition focus:border-[#82b834] focus:shadow-[0_0_0_3px_rgba(169,245,44,.16)] disabled:cursor-not-allowed disabled:bg-[#eef1ed] disabled:text-[#9aa49d]" id="destinationId" name="destinationId" required><option value="">Selecciona un destino</option></select></label>
+    <label class="mb-3.75 block"><span class="mb-1.75 ml-0.5 flex justify-between text-[12px] font-extrabold tracking-[.01em]">Destino</span><select class="h-11.5 w-full rounded-[10px] border border-[#dce4dc] bg-[#fbfcf9] px-3 pr-7.5 text-[13px] text-(--ink) outline-none transition focus:border-[#82b834] focus:shadow-[0_0_0_3px_rgba(169,245,44,.16)] disabled:cursor-not-allowed disabled:bg-[#eef1ed] disabled:text-[#9aa49d]" id="destinationId" name="destinationId" required><option value="">Selecciona un destino</option></select></label>
 
-    <div id="destination-hint" class="-mt-1 mb-[15px] flex justify-between rounded-lg bg-[#f2f8e9] px-2.5 py-2 text-[11px] text-[#607052]" hidden></div>
+    <div id="destination-hint" class="-mt-1 mb-3.75 flex justify-between rounded-lg bg-[#f2f8e9] px-2.5 py-2 text-[11px] text-[#607052]" hidden></div>
 
     <div class="field-row grid grid-cols-2 gap-3 max-[460px]:grid-cols-1 max-[460px]:gap-0">
-      <label class="mb-[15px] block"><span class="mb-[7px] ml-0.5 flex justify-between text-[12px] font-extrabold tracking-[.01em]">Fecha del viaje</span><input class="h-[46px] w-full rounded-[10px] border border-[#dce4dc] bg-[#fbfcf9] px-3 text-[13px] text-[var(--ink)] outline-none transition focus:border-[#82b834] focus:shadow-[0_0_0_3px_rgba(169,245,44,.16)]" id="travelDate" name="travelDate" type="date" required /></label>
-      <label class="mb-[15px] block"><span class="mb-[7px] ml-0.5 flex justify-between text-[12px] font-extrabold tracking-[.01em]">Pasajeros</span><span class="grid h-[46px] grid-cols-[38px_1fr_38px] overflow-hidden rounded-[10px] border border-[#dce4dc] bg-[#fbfcf9]"><button class="cursor-pointer border-0 bg-transparent text-[18.5px] hover:bg-[#edf5e2]" type="button" data-step="-1" aria-label="Restar pasajero">−</button><input class="h-[44px] w-full appearance-none rounded-none border-0 bg-[#fbfcf9] p-0 text-center text-[13px] outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" id="passengers" name="passengers" type="number" min="1" max="8" value="1" readonly /><button class="cursor-pointer border-0 bg-transparent text-[18.5px] hover:bg-[#edf5e2]" type="button" data-step="1" aria-label="Sumar pasajero">+</button></span></label>
+      <label class="mb-3.75 block"><span class="mb-1.75 ml-0.5 flex justify-between text-[12px] font-extrabold tracking-[.01em]">Fecha del viaje</span><input class="h-[46px] w-full rounded-[10px] border border-[#dce4dc] bg-[#fbfcf9] px-3 text-[13px] text-[var(--ink)] outline-none transition focus:border-[#82b834] focus:shadow-[0_0_0_3px_rgba(169,245,44,.16)]" id="travelDate" name="travelDate" type="date" required /></label>
+      <label class="mb-3.75 block"><span class="mb-1.75 ml-0.5 flex justify-between text-[12px] font-extrabold tracking-[.01em]">Pasajeros</span><span class="grid h-[46px] grid-cols-[38px_1fr_38px] overflow-hidden rounded-[10px] border border-[#dce4dc] bg-[#fbfcf9]"><button class="cursor-pointer border-0 bg-transparent text-[18.5px] hover:bg-[#edf5e2]" type="button" data-step="-1" aria-label="Restar pasajero">−</button><input class="h-[44px] w-full appearance-none rounded-none border-0 bg-[#fbfcf9] p-0 text-center text-[13px] outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" id="passengers" name="passengers" type="number" min="1" max="8" value="1" readonly /><button class="cursor-pointer border-0 bg-transparent text-[18.5px] hover:bg-[#edf5e2]" type="button" data-step="1" aria-label="Sumar pasajero">+</button></span></label>
     </div>
 
     <fieldset class="m-[0_0_15px] border-0 p-0">
@@ -31,7 +31,7 @@ import "../styles/booking-dynamic.css";
         <span class="flex gap-1.5">Elige tu equipo <small class="font-medium text-[#94a098]">Solo personajes vivos</small></span>
         <b class="text-[11px] text-[#587d20]" id="companion-status">0 / 3</b>
       </legend>
-      <div id="companion-grid" class="companion-grid grid max-h-[188px] grid-cols-2 gap-[7px] overflow-y-auto p-0.5 [scrollbar-color:#b4c3b5_transparent] max-[460px]:grid-cols-1" aria-live="polite">
+      <div id="companion-grid" class="companion-grid grid max-h-47 grid-cols-2 gap-[7px] overflow-y-auto p-0.5 [scrollbar-color:#b4c3b5_transparent] max-[460px]:grid-cols-1" aria-live="polite">
         <p class="col-span-full m-0 rounded-[10px] border border-dashed border-[var(--line)] p-[18px] text-center text-[11px] text-[#89948c]">Selecciona un destino para descubrir acompañantes.</p>
       </div>
     </fieldset>

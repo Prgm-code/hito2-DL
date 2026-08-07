@@ -1,18 +1,17 @@
-import type { Character, Location } from "../types/rick-and-morty";
-import type { Reservation } from "../types/reservation";
-import { createElement, createImage, createSvg } from "./dom";
+import type { Character, Location } from "models/rick-and-morty";
+import { ReservationStatus, type Reservation, type RiskLevel } from "models/reservation";
+import { createElement, createImage, createSvg } from "ui/dom";
 
-export type RiskLabel = "Alto" | "Medio" | "Bajo";
 export type ToastKind = "success" | "neutral";
 
 const LOCATION_GLYPHS = ["◉", "◎", "◌", "◍"] as const;
 
-function riskClassName(risk: RiskLabel): string {
+function riskClassName(risk: RiskLevel): string {
   return `risk ${risk.toLowerCase()}`;
 }
 
 // Elementos del catálogo de destinos.
-function createRiskElement(risk: RiskLabel): HTMLSpanElement {
+function createRiskElement(risk: RiskLevel): HTMLSpanElement {
   return createElement("span", { className: riskClassName(risk) }, createElement("i"), risk);
 }
 
@@ -77,7 +76,7 @@ export function createEmptyState(title: string, message: string, compact = false
 export function createDestinationCard(
   location: Location,
   residents: Character[],
-  risk: RiskLabel,
+  risk: RiskLevel,
 ): HTMLElement {
   const chooseButton = createElement("button", {
     text: "Elegir destino ",
@@ -160,11 +159,11 @@ export function createReservationItem(
     }),
     createElement("strong", { text: formattedTotal }),
   );
-  if (reservation.status === "Confirmada" || reservation.status === "En curso") {
+  if (reservation.status === ReservationStatus.CONFIRMED || reservation.status === ReservationStatus.IN_PROGRESS) {
     side.append(
       createElement("a", {
         className: "start-trip",
-        text: `${reservation.status === "En curso" ? "Continuar viaje" : "Iniciar viaje"} →`,
+        text: `${reservation.status === ReservationStatus.IN_PROGRESS ? "Continuar viaje" : "Iniciar viaje"} →`,
         attrs: { href: `/viaje?id=${encodeURIComponent(reservation.id)}` },
       }),
       createElement("button", {
@@ -173,7 +172,7 @@ export function createReservationItem(
         dataset: { cancelReservation: reservation.id },
       }),
     );
-  } else if (reservation.status === "Completada") {
+  } else if (reservation.status === ReservationStatus.COMPLETED) {
     side.append(createElement("a", {
       className: "start-trip completed-trip",
       text: "Ver viaje →",
@@ -192,7 +191,7 @@ export function createToast(message: string, kind: ToastKind): HTMLDivElement {
   );
 }
 
-export function setRiskContent(target: HTMLElement, risk: RiskLabel): void {
+export function setRiskContent(target: HTMLElement, risk: RiskLevel): void {
   target.className = riskClassName(risk);
   target.replaceChildren(createElement("i"), document.createTextNode(` ${risk}`));
 }

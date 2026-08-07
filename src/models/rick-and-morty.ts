@@ -1,9 +1,14 @@
+/** Estados entregados por Rick and Morty API para un personaje. */
+export enum CharacterStatus {
+  ALIVE = "Alive",
+  DEAD = "Dead",
+  UNKNOWN = "unknown",
+}
+
 export interface ApiReference {
   name: string;
   url: string;
 }
-
-export type CharacterStatus = "Alive" | "Dead" | "unknown";
 
 export interface Character {
   id: number;
@@ -48,4 +53,3 @@ export interface ApiPage<T> {
   info: ApiInfo;
   results: T[];
 }
-

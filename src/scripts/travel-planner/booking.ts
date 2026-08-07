@@ -1,21 +1,27 @@
-import { getCharactersByIds, getIdFromUrl } from "../../services/rickAndMortyApi";
-import { travelStore } from "../../stores/travelStore";
-import type { Character, Location } from "../../types/rick-and-morty";
-import type { Reservation, ReservationDraft, TripType } from "../../types/reservation";
+import { getCharactersByIds, getIdFromUrl } from "services/rickAndMortyApi";
+import { travelStore } from "stores/travelStore";
+import { CharacterStatus, type Character, type Location } from "models/rick-and-morty";
+import {
+  PlannerView,
+  ReservationStatus,
+  TripType,
+  type Reservation,
+  type ReservationDraft,
+} from "models/reservation";
 import {
   appendDestinationHint,
   appendFormErrors,
   createCompanionCard,
   setRiskContent,
-} from "../../ui/appElements";
-import { createApiFormErrorNotice, createApiFormLoadingNotice } from "../../ui/apiErrorElements";
-import { createElement } from "../../ui/dom";
-import { calculateQuote, formatCredits, requiresInsurance, validateReservation } from "../../utils/travelRules";
-import { getBaseCompanions, knownLocations } from "./context";
-import { loadCatalog } from "./catalog";
-import { element } from "./helpers";
-import { showToast } from "./notifications";
-import { renderReservations, setActiveView } from "./reservations";
+} from "ui/appElements";
+import { createApiFormErrorNotice, createApiFormLoadingNotice } from "ui/apiErrorElements";
+import { createElement } from "ui/dom";
+import { calculateQuote, formatCredits, requiresInsurance, validateReservation } from "utils/travelRules";
+import { getBaseCompanions, knownLocations } from "scripts/travel-planner/context";
+import { loadCatalog } from "scripts/travel-planner/catalog";
+import { element } from "scripts/travel-planner/helpers";
+import { showToast } from "scripts/travel-planner/notifications";
+import { renderReservations, setActiveView } from "scripts/travel-planner/reservations";
 
 type FormValueControl = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
@@ -25,6 +31,14 @@ const INSURANCE_COPY = {
 } as const;
 const DESTINATION_RESIDENT_LIMIT = 16;
 const COMPANION_OPTION_LIMIT = 20;
+
+function parseTripType(value: FormDataEntryValue | null): TripType {
+  const tripType = String(value ?? "");
+  if (tripType === TripType.EXPRESS) return TripType.EXPRESS;
+  if (tripType === TripType.EXPLORATION) return TripType.EXPLORATION;
+  if (tripType === TripType.PREMIUM) return TripType.PREMIUM;
+  return TripType.EXPRESS;
+}
 
 // Evita repetir conversiones al sincronizar el store con los controles del formulario.
 function setControlValue(selector: string, value: string | number): void {
@@ -80,7 +94,7 @@ function createReservation(
     ...draft,
     id: crypto.randomUUID(),
     number: `PT-${now.getFullYear()}-${String(Date.now()).slice(-6)}`,
-    status: "Confirmada",
+    status: ReservationStatus.CONFIRMED,
     createdAt: now.toISOString(),
     destination: { id: destination.id, name: destination.name, dimension: destination.dimension, type: destination.type },
     companions: companions.map(({ id, name, image, species, status }) => ({ id, name, image, species, status })),
@@ -146,7 +160,7 @@ export async function updateCompanions(destinationId: number): Promise<void> {
   const residentIds = destination.residents.slice(0, DESTINATION_RESIDENT_LIMIT).map(getIdFromUrl);
   try {
     const residents = (await getCharactersByIds({ ids: residentIds }))
-      .filter((character) => character.status === "Alive");
+      .filter((character) => character.status === CharacterStatus.ALIVE);
     travelStore.getState().setCompanions(
       uniqueCharacters([...residents, ...getBaseCompanions()]).slice(0, COMPANION_OPTION_LIMIT),
     );
@@ -166,7 +180,7 @@ export function readDraft(): ReservationDraft {
     travelDate: String(data.get("travelDate") ?? ""),
     passengers: Number(data.get("passengers")) || 1,
     companionIds: data.getAll("companionIds").map(Number).filter(Number.isFinite),
-    tripType: String(data.get("tripType") ?? "express") as TripType,
+    tripType: parseTripType(data.get("tripType")),
     insurance: data.get("insurance") === "on",
     comments: String(data.get("comments") ?? "").trim(),
   };
@@ -220,6 +234,6 @@ export function submitReservation(event: SubmitEvent): void {
   travelStore.getState().resetDraft();
   element<HTMLFormElement>("#booking-form").reset();
   syncFormFromDraft();
-  setActiveView("reservations");
+  setActiveView(PlannerView.RESERVATIONS);
   element("[data-panel='reservations']").scrollIntoView({ behavior: "smooth", block: "start" });
 }

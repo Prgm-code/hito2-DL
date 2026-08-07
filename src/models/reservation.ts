@@ -1,8 +1,32 @@
-import type { Character, Location } from "./rick-and-morty";
+import type { Character, Location } from "models/rick-and-morty";
 
-export type TripType = "express" | "exploration" | "premium";
-export type RiskLevel = "Bajo" | "Medio" | "Alto";
-export type ReservationStatus = "Confirmada" | "En curso" | "Completada" | "Cancelada";
+/** Tipos de viaje admitidos por el formulario y el cálculo de tarifa. */
+export enum TripType {
+  EXPRESS = "express",
+  EXPLORATION = "exploration",
+  PREMIUM = "premium",
+}
+
+/** Niveles de riesgo visibles en la cotización. */
+export enum RiskLevel {
+  LOW = "Bajo",
+  MEDIUM = "Medio",
+  HIGH = "Alto",
+}
+
+/** Estados permitidos durante el ciclo de vida de una reserva. */
+export enum ReservationStatus {
+  CONFIRMED = "Confirmada",
+  IN_PROGRESS = "En curso",
+  COMPLETED = "Completada",
+  CANCELLED = "Cancelada",
+}
+
+/** Paneles principales que puede mostrar la interfaz. */
+export enum PlannerView {
+  DESTINATIONS = "destinations",
+  RESERVATIONS = "reservations",
+}
 
 export interface ReservationDraft {
   passengerName: string;

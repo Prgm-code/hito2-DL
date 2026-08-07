@@ -1,12 +1,10 @@
-import { travelStore } from "../../stores/travelStore";
-import type { Reservation } from "../../types/reservation";
-import { createElement } from "../../ui/dom";
-import { createEmptyState, createReservationItem } from "../../ui/appElements";
-import { formatCredits } from "../../utils/travelRules";
-import { element } from "./helpers";
-import { showToast } from "./notifications";
-
-export type PlannerView = "destinations" | "reservations";
+import { travelStore } from "stores/travelStore";
+import { PlannerView, type Reservation } from "models/reservation";
+import { createElement } from "ui/dom";
+import { createEmptyState, createReservationItem } from "ui/appElements";
+import { formatCredits } from "utils/travelRules";
+import { element } from "scripts/travel-planner/helpers";
+import { showToast } from "scripts/travel-planner/notifications";
 
 const reservationDateFormatter = new Intl.DateTimeFormat("es-CL", {
   day: "2-digit",
@@ -49,7 +47,7 @@ export function renderReservations(): void {
   }
 
   list.querySelector<HTMLButtonElement>("[data-go-destinations]")
-    ?.addEventListener("click", () => setActiveView("destinations"));
+    ?.addEventListener("click", () => setActiveView(PlannerView.DESTINATIONS));
   list.querySelectorAll<HTMLButtonElement>("[data-cancel-reservation]").forEach((button) => {
     button.addEventListener("click", () => {
       travelStore.getState().cancelReservation(button.dataset.cancelReservation ?? "");
@@ -70,5 +68,5 @@ export function setActiveView(view: PlannerView): void {
     tab.classList.toggle("active", active);
     tab.setAttribute("aria-selected", String(active));
   });
-  if (view === "reservations") renderReservations();
+  if (view === PlannerView.RESERVATIONS) renderReservations();
 }

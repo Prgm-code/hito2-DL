@@ -1,5 +1,5 @@
-import type { ApiErrorView } from "../services/rickAndMortyApiError";
-import { createElement } from "./dom";
+import type { ApiErrorView } from "services/rickAndMortyApiError";
+import { createElement } from "ui/dom";
 
 /** Usa el estado HTTP como marca principal; evita símbolos ambiguos. */
 function errorMark(error: ApiErrorView): string {

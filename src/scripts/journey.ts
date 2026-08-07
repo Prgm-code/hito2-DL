@@ -1,16 +1,16 @@
-import { getCharactersByIds, getEpisodesByIds, getIdFromUrl, getLocation } from "../services/rickAndMortyApi";
-import { getRickAndMortyErrorView, type ApiErrorView } from "../services/rickAndMortyApiError";
-import { travelStore } from "../stores/travelStore";
-import type { Character, Episode, Location } from "../types/rick-and-morty";
-import type { Reservation } from "../types/reservation";
+import { getCharactersByIds, getEpisodesByIds, getIdFromUrl, getLocation } from "services/rickAndMortyApi";
+import { getRickAndMortyErrorView, type ApiErrorView } from "services/rickAndMortyApiError";
+import { travelStore } from "stores/travelStore";
+import type { Character, Episode, Location } from "models/rick-and-morty";
+import { ReservationStatus, type Reservation } from "models/reservation";
 import {
   createCharacterModal,
   createEpisodeModal,
   createJourneyError,
   createJourneyView,
-} from "../ui/journeyElements";
-import { formatCredits } from "../utils/travelRules";
-import { element } from "./travel-planner/helpers";
+} from "ui/journeyElements";
+import { formatCredits } from "utils/travelRules";
+import { element } from "scripts/travel-planner/helpers";
 
 const MAX_JOURNEY_RESIDENTS = 24;
 const MAX_JOURNEY_EPISODES = 40;
@@ -75,7 +75,7 @@ function bindJourneyCompletion(content: HTMLElement): void {
     const reservationId = button.dataset.completeJourney ?? "";
     travelStore.getState().completeReservation(reservationId);
     const completed = travelStore.getState().reservations.find((item) => item.id === reservationId);
-    if (completed?.status !== "Completada") return;
+    if (completed?.status !== ReservationStatus.COMPLETED) return;
 
     button.disabled = true;
     button.textContent = "Viaje completado ✓";
@@ -132,7 +132,7 @@ async function initializeJourney(): Promise<void> {
   const reservationId = new URLSearchParams(window.location.search).get("id");
   const reservation = travelStore.getState().reservations.find((item) => item.id === reservationId);
   if (!reservation) return renderError("No encontramos esa reserva en este dispositivo.");
-  if (reservation.status === "Cancelada") return renderError("Esta reserva está cancelada y no puede iniciar el viaje.");
+  if (reservation.status === ReservationStatus.CANCELLED) return renderError("Esta reserva está cancelada y no puede iniciar el viaje.");
 
   travelStore.getState().startReservation(reservation.id);
   const activeReservation = travelStore.getState().reservations.find((item) => item.id === reservation.id) ?? reservation;

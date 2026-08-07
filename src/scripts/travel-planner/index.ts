@@ -1,18 +1,24 @@
-import { getCharacters, getLocations } from "../../services/rickAndMortyApi";
-import { travelStore } from "../../stores/travelStore";
-import { renderCompanions, renderQuote } from "./booking";
-import { loadDestinationPreviews, renderCatalog, updateLocationOptions } from "./catalog";
-import { knownLocations, setBaseCompanions } from "./context";
-import { bindEvents } from "./events";
-import { renderReservations } from "./reservations";
+import { CharacterStatusFilter } from "models/api-requests";
+import { getCharacters, getLocations } from "services/rickAndMortyApi";
+import { travelStore } from "stores/travelStore";
+import { renderCompanions, renderQuote } from "scripts/travel-planner/booking";
+import { loadDestinationPreviews, renderCatalog, updateLocationOptions } from "scripts/travel-planner/catalog";
+import { knownLocations, setBaseCompanions } from "scripts/travel-planner/context";
+import { bindEvents } from "scripts/travel-planner/events";
+import { renderReservations } from "scripts/travel-planner/reservations";
 
 // Carga inicial separada para que el botón temático pueda reintentar sin duplicar listeners.
 async function loadInitialData(): Promise<void> {
+  // Primero se inyecta el estado visual; después comienzan ambas peticiones.
+  const state = travelStore.getState();
+  state.setError(null);
+  state.setLoading(true);
+  renderCatalog(() => void loadInitialData());
+
   const requests = [
     getLocations(),
-    getCharacters({ page: 1, status: "alive" }),
+    getCharacters({ page: 1, status: CharacterStatusFilter.ALIVE }),
   ] as const;
-  renderCatalog(() => void loadInitialData());
 
   try {
     // Construye el catálogo y los acompañantes mediante peticiones paralelas.
@@ -35,7 +41,7 @@ async function loadInitialData(): Promise<void> {
 
 // Arranca listeners y estado local antes de consultar los catálogos remotos.
 export async function initializeApp(): Promise<void> {
-  bindEvents();
+  if (!bindEvents()) return;
   renderReservations();
   renderQuote();
   await loadInitialData();

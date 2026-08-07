@@ -1,5 +1,5 @@
-import { createToast, type ToastKind } from "../../ui/appElements";
-import { element } from "./helpers";
+import { createToast, type ToastKind } from "ui/appElements";
+import { element } from "scripts/travel-planner/helpers";
 
 // Las notificaciones son temporales y no forman parte del estado persistente.
 export function showToast(message: string, kind: ToastKind = "success"): void {

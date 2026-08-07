@@ -1,8 +1,8 @@
-import { getIdFromUrl } from "../services/rickAndMortyApi";
-import type { ApiErrorView } from "../services/rickAndMortyApiError";
-import type { Character, Episode, Location } from "../types/rick-and-morty";
-import type { Reservation } from "../types/reservation";
-import { createElement, createFragment, createImage } from "./dom";
+import { getIdFromUrl } from "services/rickAndMortyApi";
+import type { ApiErrorView } from "services/rickAndMortyApiError";
+import type { Character, Episode, Location } from "models/rick-and-morty";
+import { ReservationStatus, type Reservation } from "models/reservation";
+import { createElement, createFragment, createImage } from "ui/dom";
 
 type RelationKind = "residents" | "episodes";
 
@@ -236,7 +236,7 @@ export interface JourneyViewData {
 // Ensambla la segunda etapa completa del viaje como un único fragmento DOM.
 export function createJourneyView(data: JourneyViewData): DocumentFragment {
   const { reservation, destination, characters, residents, episodes, relatedEpisodes } = data;
-  const isCompleted = reservation.status === "Completada";
+  const isCompleted = reservation.status === ReservationStatus.COMPLETED;
   const fragment = createFragment();
   const episodeMap = new Map(episodes.map((episode) => [episode.id, episode]));
   const residentIds = new Set(residents.map((resident) => resident.id));

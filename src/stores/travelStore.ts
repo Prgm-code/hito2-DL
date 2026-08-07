@@ -1,8 +1,14 @@
 import { createStore } from "zustand/vanilla";
 import { createJSONStorage, persist, type StateStorage } from "zustand/middleware";
-import type { ApiErrorView } from "../services/rickAndMortyApiError";
-import type { Character, Location } from "../types/rick-and-morty";
-import type { Reservation, ReservationDraft } from "../types/reservation";
+import type { ApiErrorView } from "services/rickAndMortyApiError";
+import type { Character, Location } from "models/rick-and-morty";
+import {
+  PlannerView,
+  ReservationStatus,
+  TripType,
+  type Reservation,
+  type ReservationDraft,
+} from "models/reservation";
 
 const initialDraft: ReservationDraft = {
   passengerName: "",
@@ -11,7 +17,7 @@ const initialDraft: ReservationDraft = {
   travelDate: "",
   passengers: 1,
   companionIds: [],
-  tripType: "express",
+  tripType: TripType.EXPRESS,
   insurance: false,
   comments: "",
 };
@@ -21,7 +27,7 @@ interface TravelState {
   companions: Character[];
   reservations: Reservation[];
   draft: ReservationDraft;
-  activeView: "destinations" | "reservations";
+  activeView: PlannerView;
   locationsPage: number;
   totalLocationPages: number;
   search: string;
@@ -73,7 +79,7 @@ export const travelStore = createStore<TravelState>()(
       companions: [],
       reservations: [],
       draft: { ...initialDraft },
-      activeView: "destinations",
+      activeView: PlannerView.DESTINATIONS,
       locationsPage: 1,
       totalLocationPages: 1,
       search: "",
@@ -91,24 +97,24 @@ export const travelStore = createStore<TravelState>()(
       cancelReservation: (id) =>
         set((state) => ({
           reservations: state.reservations.map((reservation) =>
-            reservation.id === id && reservation.status !== "Completada"
-              ? { ...reservation, status: "Cancelada" as const }
+            reservation.id === id && reservation.status !== ReservationStatus.COMPLETED
+              ? { ...reservation, status: ReservationStatus.CANCELLED }
               : reservation,
           ),
         })),
       startReservation: (id) =>
         set((state) => ({
           reservations: state.reservations.map((reservation) =>
-            reservation.id === id && reservation.status === "Confirmada"
-              ? { ...reservation, status: "En curso" as const, startedAt: new Date().toISOString() }
+            reservation.id === id && reservation.status === ReservationStatus.CONFIRMED
+              ? { ...reservation, status: ReservationStatus.IN_PROGRESS, startedAt: new Date().toISOString() }
               : reservation,
           ),
         })),
       completeReservation: (id) =>
         set((state) => ({
           reservations: state.reservations.map((reservation) =>
-            reservation.id === id && reservation.status === "En curso"
-              ? { ...reservation, status: "Completada" as const, completedAt: new Date().toISOString() }
+            reservation.id === id && reservation.status === ReservationStatus.IN_PROGRESS
+              ? { ...reservation, status: ReservationStatus.COMPLETED, completedAt: new Date().toISOString() }
               : reservation,
           ),
         })),

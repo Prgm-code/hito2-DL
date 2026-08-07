@@ -1,4 +1,5 @@
-import { travelStore } from "../../stores/travelStore";
+import { travelStore } from "stores/travelStore";
+import { PlannerView } from "models/reservation";
 import {
   readDraft,
   renderBookingApiState,
@@ -8,11 +9,11 @@ import {
   submitReservation,
   syncFormFromDraft,
   updateCompanions,
-} from "./booking";
-import { hideBrokenDestinationImage, loadCatalog } from "./catalog";
-import { element, tomorrow } from "./helpers";
-import { showToast } from "./notifications";
-import { setActiveView, type PlannerView } from "./reservations";
+} from "scripts/travel-planner/booking";
+import { hideBrokenDestinationImage, loadCatalog } from "scripts/travel-planner/catalog";
+import { element, tomorrow } from "scripts/travel-planner/helpers";
+import { showToast } from "scripts/travel-planner/notifications";
+import { setActiveView } from "scripts/travel-planner/reservations";
 
 const MAX_COMPANIONS = 3;
 const SEARCH_DELAY_MS = 350;
@@ -23,8 +24,8 @@ function persistFormDraft(): void {
 }
 
 // La grilla se vuelve a renderizar; delegar el clic evita registrar listeners por tarjeta.
-function bindDestinationSelection(): void {
-  element<HTMLDivElement>("#destination-grid").addEventListener("click", (event) => {
+function bindDestinationSelection(destinationGrid: HTMLDivElement): void {
+  destinationGrid.addEventListener("click", (event) => {
     if (!(event.target instanceof Element)) return;
     const button = event.target.closest<HTMLButtonElement>("[data-book-location]");
     if (!button) return;
@@ -37,10 +38,10 @@ function bindDestinationSelection(): void {
   });
 }
 
-function bindBookingEvents(): void {
+function bindBookingEvents(bookingForm: HTMLFormElement): void {
   element<HTMLInputElement>("#travelDate").min = tomorrow();
-  element<HTMLFormElement>("#booking-form").addEventListener("submit", submitReservation);
-  element<HTMLFormElement>("#booking-form").addEventListener("input", () => {
+  bookingForm.addEventListener("submit", submitReservation);
+  bookingForm.addEventListener("input", () => {
     persistFormDraft();
     showFormErrors([]);
     renderQuote();
@@ -95,10 +96,15 @@ function bindCatalogEvents(): void {
 
 function bindNavigationEvents(): void {
   document.querySelectorAll<HTMLButtonElement>("[data-view]").forEach((tab) => {
-    tab.addEventListener("click", () => setActiveView(tab.dataset.view as PlannerView));
+    tab.addEventListener("click", () => {
+      const view = tab.dataset.view;
+      if (view === PlannerView.DESTINATIONS || view === PlannerView.RESERVATIONS) {
+        setActiveView(view);
+      }
+    });
   });
   element<HTMLButtonElement>("#header-reservations").addEventListener("click", () => {
-    setActiveView("reservations");
+    setActiveView(PlannerView.RESERVATIONS);
     element(".catalog-column").scrollIntoView({ behavior: "smooth" });
   });
 }
@@ -113,16 +119,26 @@ function bindApiState(): void {
   renderBookingApiState();
 }
 
-export function bindEvents(): void {
+export function bindEvents(): boolean {
+  // Guardias explícitas de nulidad para los nodos raíz antes de registrar eventos.
+  const bookingForm = document.getElementById("booking-form") as HTMLFormElement | null;
+  const destinationGrid = document.getElementById("destination-grid") as HTMLDivElement | null;
+  const reservationsList = document.getElementById("reservations-list") as HTMLDivElement | null;
+  if (bookingForm === null || destinationGrid === null || reservationsList === null) {
+    console.error("No fue posible iniciar la aplicación: faltan elementos principales del DOM.");
+    return false;
+  }
+
   // La captura permite manejar errores de imágenes, que no hacen bubble normalmente.
   document.addEventListener("error", (event) => {
     if (event.target instanceof HTMLImageElement && event.target.closest(".destination-photos")) {
       hideBrokenDestinationImage(event.target);
     }
   }, true);
-  bindDestinationSelection();
-  bindBookingEvents();
+  bindDestinationSelection(destinationGrid);
+  bindBookingEvents(bookingForm);
   bindCatalogEvents();
   bindNavigationEvents();
   bindApiState();
+  return true;
 }

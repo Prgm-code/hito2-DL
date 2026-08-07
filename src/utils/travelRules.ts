@@ -1,5 +1,5 @@
-import type { Character, Location } from "../types/rick-and-morty";
-import type { Quote, ReservationDraft, TripType } from "../types/reservation";
+import { CharacterStatus, type Character, type Location } from "models/rick-and-morty";
+import { RiskLevel, TripType, type Quote, type ReservationDraft } from "models/reservation";
 
 const BASE_PRICE = 1200;
 const INSURANCE_PRICE = 190;
@@ -15,9 +15,9 @@ export function requiresInsurance(location?: Location): boolean {
 }
 
 function getRiskLevel(location?: Location): Quote["risk"] {
-  if (!location || location.residents.length === 0) return "Alto";
-  if (requiresInsurance(location) || location.residents.length < 5) return "Medio";
-  return "Bajo";
+  if (!location || location.residents.length === 0) return RiskLevel.HIGH;
+  if (requiresInsurance(location) || location.residents.length < 5) return RiskLevel.MEDIUM;
+  return RiskLevel.LOW;
 }
 
 export function calculateQuote(
@@ -62,7 +62,7 @@ export function validateReservation(
   }
   if (draft.passengers < 1 || draft.passengers > 8) errors.push("La reserva admite entre 1 y 8 pasajeros.");
   if (draft.companionIds.length > 3) errors.push("Puedes viajar con un máximo de tres personajes.");
-  if (companions.some((companion) => companion.status !== "Alive")) {
+  if (companions.some((companion) => companion.status !== CharacterStatus.ALIVE)) {
     errors.push("Todos los personajes seleccionados deben estar vivos.");
   }
   if (requiresInsurance(destination) && !draft.insurance) {

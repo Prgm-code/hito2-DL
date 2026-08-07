@@ -1,4 +1,16 @@
-// Entradas tipadas evaluadas: filtros, IDs y control de las peticiones.
+export enum CharacterStatusFilter {
+  ALIVE = "alive",
+  DEAD = "dead",
+  UNKNOWN = "unknown",
+}
+
+export enum CharacterGenderFilter {
+  FEMALE = "female",
+  MALE = "male",
+  GENDERLESS = "genderless",
+  UNKNOWN = "unknown",
+}
+
 export interface PaginationRequest {
   page?: number;
 }
@@ -8,9 +20,6 @@ export interface LocationsRequest extends PaginationRequest {
   type?: string;
   dimension?: string;
 }
-
-export type CharacterStatusFilter = "alive" | "dead" | "unknown";
-export type CharacterGenderFilter = "female" | "male" | "genderless" | "unknown";
 
 export interface CharactersRequest extends PaginationRequest {
   name?: string;

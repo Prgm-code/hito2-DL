@@ -1,18 +1,18 @@
-import type { ApiPage, Character, Episode, Location } from "../types/rick-and-morty";
+import type { ApiPage, Character, Episode, Location } from "models/rick-and-morty";
 import type {
   ApiRequestControl,
   CharactersRequest,
   LocationsRequest,
   ResourceByIdRequest,
   ResourcesByIdsRequest,
-} from "../types/api-requests";
-import { travelStore } from "../stores/travelStore";
+} from "models/api-requests";
+import { travelStore } from "stores/travelStore";
 import {
   createRickAndMortyHttpError,
   getRickAndMortyErrorView,
   normalizeRickAndMortyError,
   throwPreviewError,
-} from "./rickAndMortyApiError";
+} from "services/rickAndMortyApiError";
 
 const API_URL = "https://rickandmortyapi.com/api";
 const DEFAULT_TIMEOUT_MS = 8_000;

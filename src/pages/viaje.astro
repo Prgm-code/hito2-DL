@@ -1,9 +1,9 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import PortalLogo from "../components/PortalLogo.astro";
-import "../styles/journey.css";
-import "../styles/journey-relations.css";
-import "../styles/journey-modal.css";
+import Layout from "layouts/Layout.astro";
+import PortalLogo from "components/PortalLogo.astro";
+import "styles/journey.css";
+import "styles/journey-relations.css";
+import "styles/journey-modal.css";
 ---
 
 <Layout title="Bitácora de viaje — Portal Trip" description="Sigue tu expedición y conoce la historia de tu equipo interdimensional.">
@@ -30,5 +30,7 @@ import "../styles/journey-modal.css";
       </div>
     </dialog>
   </div>
-  <script src="../scripts/journey.ts"></script>
+  <script>
+    import "scripts/journey";
+  </script>
 </Layout>
