@@ -8,7 +8,6 @@ interface ElementOptions {
   dataset?: Readonly<Record<string, string | number>>;
 }
 
-
 // para agregar múltiples hijos a un nodo padre, ignorando valores nulos o falsos
 function appendChildren(parent: Node, ...children: DomChild[]): void {
   children.forEach((child) => {
@@ -37,14 +36,12 @@ export function createElement<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
-
 // crea un fragmento de documento con múltiples hijos, ignorando valores nulos o falsos
 export function createFragment(...children: DomChild[]): DocumentFragment {
   const fragment = document.createDocumentFragment();
   appendChildren(fragment, ...children);
   return fragment;
 }
-
 
 // Normalizamos la creación de imágenes para que tengan un tamaño fijo, carga diferida y manejo de errores.
 export function createImage(src: string, alt = '', className = ''): HTMLImageElement {
