@@ -67,6 +67,28 @@ function bindDetailModals(content: HTMLElement, residents: Character[], episodes
   modal.addEventListener("click", (event) => { if (event.target === modal) modal.close(); });
 }
 
+function bindJourneyCompletion(content: HTMLElement): void {
+  const button = content.querySelector<HTMLButtonElement>("[data-complete-journey]");
+  if (!button || button.disabled) return;
+
+  button.addEventListener("click", () => {
+    const reservationId = button.dataset.completeJourney ?? "";
+    travelStore.getState().completeReservation(reservationId);
+    const completed = travelStore.getState().reservations.find((item) => item.id === reservationId);
+    if (completed?.status !== "Completada") return;
+
+    button.disabled = true;
+    button.textContent = "Viaje completado ✓";
+    content.querySelector<HTMLElement>("[data-journey-finale]")?.classList.add("completed");
+    const kicker = content.querySelector<HTMLElement>("[data-finale-kicker]");
+    const title = content.querySelector<HTMLElement>("[data-finale-title]");
+    const copy = content.querySelector<HTMLElement>("[data-finale-copy]");
+    if (kicker) kicker.textContent = "EXPEDICIÓN COMPLETADA";
+    if (title) title.textContent = "Viaje completado con éxito.";
+    if (copy) copy.textContent = "La expedición quedó registrada como completada en este dispositivo.";
+  }, { once: true });
+}
+
 function renderJourney(
   reservation: Reservation,
   destination: Location,
@@ -95,6 +117,7 @@ function renderJourney(
   content.hidden = false;
   bindRelationToggles(content);
   bindDetailModals(content, residents, episodes);
+  bindJourneyCompletion(content);
 }
 
 function renderError(error: ApiErrorView | string): void {

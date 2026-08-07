@@ -2,7 +2,7 @@ import type { Character, Location } from "./rick-and-morty";
 
 export type TripType = "express" | "exploration" | "premium";
 export type RiskLevel = "Bajo" | "Medio" | "Alto";
-export type ReservationStatus = "Confirmada" | "En curso" | "Cancelada";
+export type ReservationStatus = "Confirmada" | "En curso" | "Completada" | "Cancelada";
 
 export interface ReservationDraft {
   passengerName: string;
@@ -32,6 +32,7 @@ export interface Reservation extends ReservationDraft {
   status: ReservationStatus;
   createdAt: string;
   startedAt?: string;
+  completedAt?: string;
   destination: Pick<Location, "id" | "name" | "dimension" | "type">;
   companions: Pick<Character, "id" | "name" | "image" | "species" | "status">[];
   /** Compatibilidad con reservas creadas antes de permitir varios personajes. */

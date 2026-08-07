@@ -160,7 +160,7 @@ export function createReservationItem(
     }),
     createElement("strong", { text: formattedTotal }),
   );
-  if (reservation.status !== "Cancelada") {
+  if (reservation.status === "Confirmada" || reservation.status === "En curso") {
     side.append(
       createElement("a", {
         className: "start-trip",
@@ -173,6 +173,12 @@ export function createReservationItem(
         dataset: { cancelReservation: reservation.id },
       }),
     );
+  } else if (reservation.status === "Completada") {
+    side.append(createElement("a", {
+      className: "start-trip completed-trip",
+      text: "Ver viaje →",
+      attrs: { href: `/viaje?id=${encodeURIComponent(reservation.id)}` },
+    }));
   }
   return createElement("article", { className: "reservation-item" }, route, meta, team, side);
 }

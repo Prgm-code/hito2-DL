@@ -34,7 +34,7 @@
 }
 
 .portal-core svg { width: 70%; transform: rotate(8deg); }
-.toast { display: flex; align-items: center; gap: 9px; min-width: 270px; padding: 14px 16px; border: 1px solid #dce4dc; border-radius: 11px; background: white; box-shadow: 0 14px 40px rgba(9,30,19,.18); font-size: 14px; font-weight: 700; animation: toast-in .25s ease-out; }
+.toast { display: flex; align-items: center; gap: 9px; min-width: 270px; padding: 14px 16px; border: 1px solid #dce4dc; border-radius: 11px; background: white; box-shadow: 0 14px 40px rgba(9,30,19,.18); font-size: 12px; font-weight: 700; animation: toast-in .25s ease-out; }
 .toast > span { display: grid; width: 20px; height: 20px; place-items: center; border-radius: 50%; color: #4f7716; background: var(--mint); }
 .toast.neutral > span { color: #5c6961; background: #edf0ec; }
 

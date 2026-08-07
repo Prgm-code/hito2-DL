@@ -236,6 +236,7 @@ export interface JourneyViewData {
 // Ensambla la segunda etapa completa del viaje como un único fragmento DOM.
 export function createJourneyView(data: JourneyViewData): DocumentFragment {
   const { reservation, destination, characters, residents, episodes, relatedEpisodes } = data;
+  const isCompleted = reservation.status === "Completada";
   const fragment = createFragment();
   const episodeMap = new Map(episodes.map((episode) => [episode.id, episode]));
   const residentIds = new Set(residents.map((resident) => resident.id));
@@ -313,16 +314,42 @@ export function createJourneyView(data: JourneyViewData): DocumentFragment {
     createElement("p", { text: "Puedes volver y crear otra reserva seleccionando hasta tres acompañantes vivos." }),
     createElement("a", { text: "Crear otra reserva", attrs: { href: "/#reserva" } }),
   ));
+  const completeButton = createElement("button", {
+    className: "journey-complete",
+    text: isCompleted ? "Viaje completado ✓" : "Completar viaje ✓",
+    attrs: { type: "button" },
+    dataset: { completeJourney: reservation.id },
+  });
+  completeButton.disabled = isCompleted;
+
   fragment.append(
     createElement("section", { className: "crew-section" },
       createLogHeading("ARCHIVO DE PERSONAJES", "Conoce a tu equipo", "Origen, ubicación actual y aventuras registradas por la API."),
       storyGrid,
     ),
-    createElement("section", { className: "journey-finale" },
-      createElement("span", { text: "PORTAL ESTABLE" }),
-      createElement("h2", { text: "Tu historia ya está en marcha." }),
-      createElement("p", { text: "La reserva cambió a “En curso” y seguirá disponible en este dispositivo." }),
-      createElement("a", { text: "Volver a la agencia →", attrs: { href: "/" } }),
+    createElement("section", {
+      className: `journey-finale${isCompleted ? " completed" : ""}`,
+      attrs: { "aria-live": "polite" },
+      dataset: { journeyFinale: "" },
+    },
+      createElement("span", {
+        text: isCompleted ? "EXPEDICIÓN COMPLETADA" : "PORTAL ESTABLE",
+        dataset: { finaleKicker: "" },
+      }),
+      createElement("h2", {
+        text: isCompleted ? "Viaje completado con éxito." : "Tu historia ya está en marcha.",
+        dataset: { finaleTitle: "" },
+      }),
+      createElement("p", {
+        text: isCompleted
+          ? "La expedición quedó registrada como completada en este dispositivo."
+          : "Cuando regreses del portal, completa el viaje para cerrar la expedición.",
+        dataset: { finaleCopy: "" },
+      }),
+      createElement("div", { className: "journey-finale-actions" },
+        completeButton,
+        createElement("a", { text: "Volver a la agencia →", attrs: { href: "/" } }),
+      ),
     ),
   );
   return fragment;
@@ -340,20 +367,20 @@ export function createJourneyError(error: ApiErrorView | string): DocumentFragme
       text: isApiError ? String(error.status ?? "OFF") : "!",
     }),
     isApiError && createElement("span", {
-      className: "rounded-full border border-[#f38c75]/30 bg-[#f38c75]/10 px-3 py-1 font-mono text-[13px] font-bold tracking-[.12em] text-[#f38c75]",
+      className: "rounded-full border border-[#f38c75]/30 bg-[#f38c75]/10 px-3 py-1 font-mono text-[11px] font-bold tracking-[.12em] text-[#f38c75]",
       text: `CÓDIGO · ${error.code}`,
     }),
     createElement("h1", { text: title }),
     createElement("p", { text: message }),
     isApiError && createElement("small", {
-      className: "mt-2 text-[14px] leading-relaxed text-[#748178]",
+      className: "mt-2 text-[12px] leading-relaxed text-[#748178]",
       text: error.hint,
     }),
   );
 
   const actions = createElement("div", { className: "mt-5 flex flex-wrap justify-center gap-2.5" });
   if (isApiError) actions.append(createElement("button", {
-    className: "cursor-pointer rounded-full border-0 bg-[var(--green)] px-4 py-2.5 text-[14px] font-extrabold text-[var(--night)] disabled:cursor-wait disabled:opacity-55",
+    className: "cursor-pointer rounded-full border-0 bg-[var(--green)] px-4 py-2.5 text-[12px] font-extrabold text-[var(--night)] disabled:cursor-wait disabled:opacity-55",
     text: "Reintentar salto",
     attrs: { type: "button" },
     dataset: { retryJourney: "true" },

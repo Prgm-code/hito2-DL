@@ -4,8 +4,8 @@ import "../styles/catalog.css";
 
 <section id="destinos" class="view-panel min-h-[600px] scroll-mt-5 rounded-[var(--radius)] border border-[var(--line)] bg-white/90 px-7 pb-7 pt-[88px] shadow-[var(--shadow)] backdrop-blur-xl max-[650px]:rounded-2xl max-[650px]:px-[19px] max-[650px]:pb-[19px] max-[650px]:pt-[79px] max-[460px]:p-[73px_15px_15px]" data-panel="destinations" role="tabpanel" aria-labelledby="destinations-tab">
   <div class="catalog-heading mb-[21px] flex items-end justify-between">
-    <div><span class="section-kicker text-[13px] font-[850] uppercase tracking-[.16em] text-[#4f6c5b]">CATÁLOGO MULTIVERSAL</span><h2 class="mt-1 text-[28px] tracking-[-.045em] max-[460px]:text-[24px]">Elige tu próximo destino</h2></div>
-    <p class="mb-[3px] text-[13px] text-[#7a867e] before:mr-1.5 before:inline-block before:size-1.5 before:rounded-full before:bg-[#72b71e] before:shadow-[0_0_0_3px_rgba(114,183,30,.1)] before:content-[''] max-[650px]:hidden">Información obtenida en tiempo real</p>
+    <div><span class="section-kicker text-[11.5px] font-[850] uppercase tracking-[.16em] text-[#4f6c5b]">CATÁLOGO MULTIVERSAL</span><h2 class="mt-1 text-[26.5px] tracking-[-.045em] max-[460px]:text-[23px]">Elige tu próximo destino</h2></div>
+    <p class="mb-[3px] text-[11px] text-[#7a867e] before:mr-1.5 before:inline-block before:size-1.5 before:rounded-full before:bg-[#72b71e] before:shadow-[0_0_0_3px_rgba(114,183,30,.1)] before:content-[''] max-[650px]:hidden">Información obtenida en tiempo real</p>
   </div>
 
   <div class="catalog-tools mb-3 grid grid-cols-[1fr_160px] gap-[9px] max-[460px]:grid-cols-1">
@@ -13,10 +13,10 @@ import "../styles/catalog.css";
     <label class="filter-box"><span class="sr-only">Filtrar por tipo</span><select class="h-[46px] w-full rounded-[10px] border border-[var(--line)] bg-[#fbfcf9] px-3 text-[14px] font-semibold outline-none focus:border-[#82b834]" id="type-filter"><option value="all">Todos los tipos</option><option value="Planet">Planetas</option><option value="Space station">Estaciones</option><option value="Dimension">Dimensiones</option><option value="Microverse">Microversos</option><option value="TV">TV</option></select></label>
   </div>
 
-  <div id="catalog-status" class="catalog-status min-h-[25px] text-[13px] text-[#7a867e]" aria-live="polite"></div>
+  <div id="catalog-status" class="catalog-status min-h-[25px] text-[11px] text-[#7a867e]" aria-live="polite"></div>
   <div id="destination-grid" class="destination-grid grid grid-cols-3 gap-3 max-[1100px]:grid-cols-2 max-[820px]:grid-cols-3 max-[650px]:grid-cols-2 max-[460px]:grid-cols-1"></div>
 
-  <div class="pagination mt-[21px] flex items-center justify-center gap-[13px] text-[13px] text-[#6d7a72]" aria-label="Paginación de destinos">
+  <div class="pagination mt-[21px] flex items-center justify-center gap-[13px] text-[11px] text-[#6d7a72]" aria-label="Paginación de destinos">
     <button class="size-[31px] cursor-pointer rounded-[9px] border border-[var(--line)] bg-white hover:border-[#719d31] hover:text-[#4f731b] disabled:cursor-not-allowed disabled:opacity-40" id="previous-page" type="button" aria-label="Página anterior">←</button>
     <span id="page-status">Página 1 de 1</span>
     <button class="size-[31px] cursor-pointer rounded-[9px] border border-[var(--line)] bg-white hover:border-[#719d31] hover:text-[#4f731b] disabled:cursor-not-allowed disabled:opacity-40" id="next-page" type="button" aria-label="Página siguiente">→</button>

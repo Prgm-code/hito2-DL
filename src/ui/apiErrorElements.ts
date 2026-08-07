@@ -31,11 +31,11 @@ export function createApiErrorPanel(
     "div",
     { className: "flex items-center justify-center gap-2" },
     createElement("span", {
-      className: "rounded-full border border-[#cf744f]/30 bg-[#cf744f]/10 px-2.5 py-1 font-mono text-[12px] font-bold tracking-[.12em] text-[#a84a2c]",
+      className: "rounded-full border border-[#cf744f]/30 bg-[#cf744f]/10 px-2.5 py-1 font-mono text-[10px] font-bold tracking-[.12em] text-[#a84a2c]",
       text: `CÓDIGO · ${error.code}`,
     }),
     createElement("span", {
-      className: "text-[12px] font-bold uppercase tracking-[.14em] text-[#748077]",
+      className: "text-[10px] font-bold uppercase tracking-[.14em] text-[#748077]",
       text: "Anomalía detectada",
     }),
   );
@@ -63,18 +63,18 @@ export function createApiErrorPanel(
       text: error.title,
     }),
     createElement("p", {
-      className: "m-0 text-[15px] leading-relaxed text-[#66736b]",
+      className: "m-0 text-[13px] leading-relaxed text-[#66736b]",
       text: error.message,
     }),
     createElement("small", {
-      className: "mt-1.5 text-[13px] leading-relaxed text-[#8a958e]",
+      className: "mt-1.5 text-[11px] leading-relaxed text-[#8a958e]",
       text: error.hint,
     }),
   );
 
   if (onRetry) {
     const retry = createElement("button", {
-      className: "mt-4 cursor-pointer rounded-full border-0 bg-[var(--ink)] px-4 py-2.5 text-[13px] font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-[#294535] disabled:cursor-wait disabled:opacity-55 disabled:hover:translate-y-0",
+      className: "mt-4 cursor-pointer rounded-full border-0 bg-[var(--ink)] px-4 py-2.5 text-[11px] font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-[#294535] disabled:cursor-wait disabled:opacity-55 disabled:hover:translate-y-0",
       attrs: { type: "button" },
     });
     configureRetryButton(retry, "Recalibrar portal →", onRetry);
@@ -98,26 +98,26 @@ export function createApiFormErrorNotice(
       dataset: { errorKind: error.kind },
     },
     createElement("span", {
-      className: "row-span-2 grid size-9 place-items-center rounded-full border border-[#cf744f]/30 bg-white font-mono text-[13px] font-black text-[#b75635]",
+      className: "row-span-2 grid size-9 place-items-center rounded-full border border-[#cf744f]/30 bg-white font-mono text-[11px] font-black text-[#b75635]",
       text: errorMark(error),
       attrs: { "aria-hidden": "true" },
     }),
     createElement("div", { className: "flex items-center gap-2" },
-      createElement("b", { className: "text-[14px] text-[#7f2f1e]", text: error.title }),
+      createElement("b", { className: "text-[12px] text-[#7f2f1e]", text: error.title }),
       createElement("small", {
-        className: "rounded-full bg-[#cf744f]/10 px-1.5 py-0.5 font-mono text-[12px] font-bold text-[#a84a2c]",
+        className: "rounded-full bg-[#cf744f]/10 px-1.5 py-0.5 font-mono text-[9.5px] font-bold text-[#a84a2c]",
         text: `CÓDIGO ${error.code}`,
       }),
     ),
     createElement("p", {
-      className: "m-0 mt-1 text-[12px] leading-relaxed text-[#8b5d4d]",
+      className: "m-0 mt-1 text-[10px] leading-relaxed text-[#8b5d4d]",
       text: `${error.message} ${error.hint}`,
     }),
   );
 
   if (onRetry) {
     const retry = createElement("button", {
-      className: "col-start-2 mt-2 w-max cursor-pointer border-0 bg-transparent p-0 text-[12px] font-extrabold text-[#874020] hover:underline disabled:cursor-wait disabled:opacity-60",
+      className: "col-start-2 mt-2 w-max cursor-pointer border-0 bg-transparent p-0 text-[10px] font-extrabold text-[#874020] hover:underline disabled:cursor-wait disabled:opacity-60",
       attrs: { type: "button" },
     });
     configureRetryButton(retry, "Recalibrar formulario →", onRetry);
@@ -131,7 +131,7 @@ export function createApiFormErrorNotice(
 export function createApiFormLoadingNotice(): HTMLElement {
   return createElement(
     "div",
-    { className: "flex items-center gap-2 rounded-xl border border-[#dce4dc] bg-[#f5f8f2] px-3 py-2.5 text-[13px] text-[#68766d]", attrs: { role: "status" } },
+    { className: "flex items-center gap-2 rounded-xl border border-[#dce4dc] bg-[#f5f8f2] px-3 py-2.5 text-[11px] text-[#68766d]", attrs: { role: "status" } },
     createElement("span", { className: "spinner", attrs: { "aria-hidden": "true" } }),
     createElement("span", { text: "Sincronizando destinos y acompañantes antes de habilitar la reserva..." }),
   );

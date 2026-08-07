@@ -38,6 +38,7 @@ interface TravelState {
   addReservation: (reservation: Reservation) => void;
   cancelReservation: (id: string) => void;
   startReservation: (id: string) => void;
+  completeReservation: (id: string) => void;
   resetDraft: () => void;
 }
 
@@ -90,7 +91,9 @@ export const travelStore = createStore<TravelState>()(
       cancelReservation: (id) =>
         set((state) => ({
           reservations: state.reservations.map((reservation) =>
-            reservation.id === id ? { ...reservation, status: "Cancelada" as const } : reservation,
+            reservation.id === id && reservation.status !== "Completada"
+              ? { ...reservation, status: "Cancelada" as const }
+              : reservation,
           ),
         })),
       startReservation: (id) =>
@@ -98,6 +101,14 @@ export const travelStore = createStore<TravelState>()(
           reservations: state.reservations.map((reservation) =>
             reservation.id === id && reservation.status === "Confirmada"
               ? { ...reservation, status: "En curso" as const, startedAt: new Date().toISOString() }
+              : reservation,
+          ),
+        })),
+      completeReservation: (id) =>
+        set((state) => ({
+          reservations: state.reservations.map((reservation) =>
+            reservation.id === id && reservation.status === "En curso"
+              ? { ...reservation, status: "Completada" as const, completedAt: new Date().toISOString() }
               : reservation,
           ),
         })),

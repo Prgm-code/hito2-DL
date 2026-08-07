@@ -10,15 +10,15 @@ import "../styles/journey-modal.css";
   <div class="min-h-screen bg-[#07110d] text-[#eef4ed]">
     <header class="mx-auto grid h-[78px] w-[min(1380px,calc(100%_-_64px))] grid-cols-[1fr_auto_1fr] items-center border-b border-white/10 max-[820px]:w-[calc(100%_-_36px)] max-[820px]:grid-cols-[1fr_auto] max-[460px]:w-[calc(100%_-_24px)]">
       <PortalLogo theme="dark" />
-      <span class="flex items-center gap-[7px] text-[13px] font-bold uppercase tracking-[.1em] text-[#aeb9b0] max-[820px]:hidden"><i class="size-[7px] rounded-full bg-[var(--green)] shadow-[0_0_10px_var(--green)]"></i> Señal del portal activa</span>
-      <a class="justify-self-end text-[14px] text-[#c7d0c8] hover:text-[var(--green)] max-[460px]:text-[0px] max-[460px]:after:text-[13px] max-[460px]:after:content-['←_Volver']" href="/">← Volver a mis reservas</a>
+      <span class="flex items-center gap-[7px] text-[11px] font-bold uppercase tracking-[.1em] text-[#aeb9b0] max-[820px]:hidden"><i class="size-[7px] rounded-full bg-[var(--green)] shadow-[0_0_10px_var(--green)]"></i> Señal del portal activa</span>
+      <a class="justify-self-end text-[12px] text-[#c7d0c8] hover:text-[var(--green)] max-[460px]:text-[0px] max-[460px]:after:text-[11px] max-[460px]:after:content-['←_Volver']" href="/">← Volver a mis reservas</a>
     </header>
 
-    <main class="mx-auto w-[min(1260px,calc(100%_-_64px))] max-[820px]:w-[calc(100%_-_36px)] max-[460px]:w-[calc(100%_-_24px)]">
+    <main class="mx-auto w-[min(1260px,calc(100%_-_64px))] pb-[90px] max-[820px]:w-[calc(100%_-_36px)] max-[460px]:w-[calc(100%_-_24px)] max-[460px]:pb-10">
       <div id="journey-loading" class="grid min-h-[calc(100vh_-_78px)] place-content-center justify-items-center text-center" aria-live="polite">
         <div class="loading-portal animate-spin text-[100px] leading-none text-[var(--green)] [animation-duration:3s] [text-shadow:0_0_30px_rgba(169,245,44,.6)]">◎</div>
         <h1 class="mb-[7px] mt-5 text-3xl">Estabilizando el portal...</h1>
-        <p class="m-0 text-base text-[#9ba69d]">Sincronizando historias, episodios y coordenadas de tu equipo.</p>
+        <p class="m-0 text-[14px] text-[#9ba69d]">Sincronizando historias, episodios y coordenadas de tu equipo.</p>
       </div>
       <div id="journey-content" hidden></div>
     </main>
