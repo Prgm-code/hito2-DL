@@ -15,5 +15,6 @@ textarea {
 
 /* Evita que los estilos de componentes anulen el respaldo de una imagen fallida. */
 img[hidden] {
+  /* biome-ignore lint/complexity/noImportantStyles: The native hidden state must override component display utilities. */
   display: none !important;
 }

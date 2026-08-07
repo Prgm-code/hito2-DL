@@ -1,16 +1,101 @@
 /* Personajes, errores y riesgo creados dinámicamente por app.ts. */
-.companion-grid > p { grid-column: 1 / -1; margin: 0; padding: 18px; border: 1px dashed var(--line); border-radius: 10px; color: #89948c; text-align: center; font-size: 11px; }
-.companion-card { position: relative; display: grid; grid-template-columns: 40px 1fr 22px; align-items: center; gap: 9px; min-width: 0; padding: 7px; border: 1px solid #dce4dc; border-radius: 10px; background: #fbfcf9; cursor: pointer; transition: .18s; }
-.companion-card:hover { border-color: #9bb876; }
-.companion-card.selected { border-color: #78a934; background: #eff9df; box-shadow: inset 0 0 0 1px #78a934; }
-.companion-card input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-.companion-card input:focus-visible ~ strong { outline: 2px solid #507a19; outline-offset: 2px; }
-.companion-card img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
-.companion-card > span { min-width: 0; }
-.companion-card b { display: block; overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
-.companion-card small { display: flex; align-items: center; gap: 4px; margin-top: 3px; overflow: hidden; color: #829087; font-size: 9.5px; text-overflow: ellipsis; white-space: nowrap; }
-.companion-card small i { width: 5px; height: 5px; flex: 0 0 auto; border-radius: 50%; background: #79b72c; }
-.companion-card > strong { display: grid; width: 22px; height: 22px; place-items: center; border: 1px solid #cbd5ca; border-radius: 50%; color: #718078; background: white; font-size: 12px; }
-.companion-card.selected > strong { border-color: #6fa027; color: white; background: #6fa027; }
-.form-errors b { font-size: 12px; }
-.form-errors ul { margin: 4px 0 0; padding-left: 16px; line-height: 1.5; }
+.companion-grid > p {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 18px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  color: #89948c;
+  text-align: center;
+  font-size: 11px;
+}
+.companion-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px 1fr 22px;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 7px;
+  border: 1px solid #dce4dc;
+  border-radius: 10px;
+  background: #fbfcf9;
+  cursor: pointer;
+  transition: 0.18s;
+}
+.companion-card:hover {
+  border-color: #9bb876;
+}
+.companion-card.selected {
+  border-color: #78a934;
+  background: #eff9df;
+  box-shadow: inset 0 0 0 1px #78a934;
+}
+.companion-card input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.companion-card img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.companion-card > span {
+  min-width: 0;
+}
+.companion-card b {
+  display: block;
+  overflow: hidden;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.companion-card small {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 3px;
+  overflow: hidden;
+  color: #829087;
+  font-size: 9.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.companion-card small i {
+  width: 5px;
+  height: 5px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #79b72c;
+}
+.companion-card > strong {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid #cbd5ca;
+  border-radius: 50%;
+  color: #718078;
+  background: white;
+  font-size: 12px;
+}
+.companion-card.selected > strong {
+  border-color: #6fa027;
+  color: white;
+  background: #6fa027;
+}
+.companion-card input:focus-visible ~ strong {
+  outline: 2px solid #507a19;
+  outline-offset: 2px;
+}
+.form-errors b {
+  font-size: 12px;
+}
+.form-errors ul {
+  margin: 4px 0 0;
+  padding-left: 16px;
+  line-height: 1.5;
+}

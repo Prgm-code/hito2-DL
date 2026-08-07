@@ -1,14 +1,14 @@
 export enum CharacterStatusFilter {
-  ALIVE = "alive",
-  DEAD = "dead",
-  UNKNOWN = "unknown",
+  ALIVE = 'alive',
+  DEAD = 'dead',
+  UNKNOWN = 'unknown',
 }
 
 export enum CharacterGenderFilter {
-  FEMALE = "female",
-  MALE = "male",
-  GENDERLESS = "genderless",
-  UNKNOWN = "unknown",
+  FEMALE = 'female',
+  MALE = 'male',
+  GENDERLESS = 'genderless',
+  UNKNOWN = 'unknown',
 }
 
 export interface PaginationRequest {

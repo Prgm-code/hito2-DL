@@ -1,12 +1,31 @@
 ---
-import PortalLogo from "components/PortalLogo.astro";
+import PortalLogo from 'components/PortalLogo.astro';
 ---
 
-<header class="site-header mx-auto grid h-19.5 w-[calc(100%-56px)] max-w-360 grid-cols-[1fr_auto_1fr] items-center border-b border-[#1020191a] max-[1100px]:w-[calc(100%-40px)] max-[820px]:grid-cols-[1fr_auto] max-[650px]:w-[calc(100%-28px)]">
+<header
+  class="site-header mx-auto grid h-19.5 w-[calc(100%-56px)] max-w-360 grid-cols-[1fr_auto_1fr] items-center border-b border-[#1020191a] max-[1100px]:w-[calc(100%-40px)] max-[820px]:grid-cols-[1fr_auto] max-[650px]:w-[calc(100%-28px)]"
+>
   <PortalLogo />
-  <nav class="flex items-center gap-9 max-[1100px]:gap-5 max-[820px]:hidden" aria-label="Navegación principal">
-    <a class="nav-link active relative border-0 bg-transparent py-2.25 text-[14px] font-semibold text-(--ink) after:absolute after:inset-x-0 after:-bottom-5.25 after:h-0.5 after:bg-(--green-dark) after:content-['']" href="#destinos">Destinos</a>
-    <button class="nav-link relative cursor-pointer border-0 bg-transparent py-2.25 text-[14px] font-semibold text-[#657269] hover:text-(--ink)" id="header-reservations" type="button">Mis reservas</button>
+  <nav
+    class="flex items-center gap-9 max-[1100px]:gap-5 max-[820px]:hidden"
+    aria-label="Navegación principal"
+  >
+    <a
+      class="nav-link active relative border-0 bg-transparent py-2.25 text-[14px] font-semibold text-(--ink) after:absolute after:inset-x-0 after:-bottom-5.25 after:h-0.5 after:bg-(--green-dark) after:content-['']"
+      href="#destinos"
+      >Destinos</a
+    >
+    <button
+      class="nav-link relative cursor-pointer border-0 bg-transparent py-2.25 text-[14px] font-semibold text-[#657269] hover:text-(--ink)"
+      id="header-reservations"
+      type="button"
+    >
+      Mis reservas
+    </button>
   </nav>
-  <a href="#reserva" class="header-cta flex items-center justify-self-end gap-6.5 rounded-full border border-[#102019] px-4.5 py-2.75 text-[13px] font-extrabold transition hover:-translate-y-px hover:bg-(--ink) hover:text-white max-[650px]:gap-2 max-[650px]:px-3.25 max-[460px]:text-[11.5px]">Planear mi viaje <span class="max-[460px]:hidden" aria-hidden="true">→</span></a>
+  <a
+    href="#reserva"
+    class="header-cta flex items-center justify-self-end gap-6.5 rounded-full border border-[#102019] px-4.5 py-2.75 text-[13px] font-extrabold transition hover:-translate-y-px hover:bg-(--ink) hover:text-white max-[650px]:gap-2 max-[650px]:px-3.25 max-[460px]:text-[11.5px]"
+    >Planear mi viaje <span class="max-[460px]:hidden" aria-hidden="true">→</span></a
+  >
 </header>

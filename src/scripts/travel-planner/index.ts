@@ -1,11 +1,15 @@
-import { CharacterStatusFilter } from "models/api-requests";
-import { getCharacters, getLocations } from "services/rickAndMortyApi";
-import { travelStore } from "stores/travelStore";
-import { renderCompanions, renderQuote } from "scripts/travel-planner/booking";
-import { loadDestinationPreviews, renderCatalog, updateLocationOptions } from "scripts/travel-planner/catalog";
-import { knownLocations, setBaseCompanions } from "scripts/travel-planner/context";
-import { bindEvents } from "scripts/travel-planner/events";
-import { renderReservations } from "scripts/travel-planner/reservations";
+import { CharacterStatusFilter } from 'models/api-requests';
+import { renderCompanions, renderQuote } from 'scripts/travel-planner/booking';
+import {
+  loadDestinationPreviews,
+  renderCatalog,
+  updateLocationOptions,
+} from 'scripts/travel-planner/catalog';
+import { knownLocations, setBaseCompanions } from 'scripts/travel-planner/context';
+import { bindEvents } from 'scripts/travel-planner/events';
+import { renderReservations } from 'scripts/travel-planner/reservations';
+import { getCharacters, getLocations } from 'services/rickAndMortyApi';
+import { travelStore } from 'stores/travelStore';
 
 // Carga inicial separada para que el botón temático pueda reintentar sin duplicar listeners.
 async function loadInitialData(): Promise<void> {
@@ -25,7 +29,9 @@ async function loadInitialData(): Promise<void> {
     const [locations, aliveCharacters] = await Promise.all(requests);
 
     // actualiza el estado local con los resultados de la API
-    locations.results.forEach((location) => knownLocations.set(location.id, location));
+    locations.results.forEach((location) => {
+      knownLocations.set(location.id, location);
+    });
     setBaseCompanions(aliveCharacters.results);
     travelStore.getState().setCompanions(aliveCharacters.results);
     travelStore.getState().setCatalog(locations.results, 1, locations.info.pages);

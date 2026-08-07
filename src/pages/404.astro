@@ -4,10 +4,10 @@ import {
   IconArrowRight,
   IconMapPinQuestion,
   IconSparkles,
-} from "@tabler/icons-astro";
-import Layout from "layouts/Layout.astro";
-import PortalLogo from "components/PortalLogo.astro";
-import "styles/not-found.css";
+} from '@tabler/icons-astro';
+import PortalLogo from 'components/PortalLogo.astro';
+import Layout from 'layouts/Layout.astro';
+import 'styles/not-found.css';
 ---
 
 <Layout
@@ -36,18 +36,18 @@ import "styles/not-found.css";
 
         <p class="eyebrow">Houston... o Tierra C-137</p>
         <h1 id="not-found-title">
-          Esta dimensión<br />
+          Esta dimensión<br>
           <span>no está en el mapa.</span>
         </h1>
         <p class="error-message">
-          El portal abrió en el lugar equivocado. La ruta pudo cambiar de
-          universo, quedar fuera de servicio o nunca haber existido.
+          El portal abrió en el lugar equivocado. La ruta pudo cambiar de universo, quedar fuera de
+          servicio o nunca haber existido.
         </p>
 
-        <div class="route-readout" aria-label="Ruta no encontrada">
+        <section class="route-readout" aria-label="Ruta no encontrada">
           <span>Coordenada solicitada</span>
           <code id="missing-path">Cargando coordenada...</code>
-        </div>
+        </section>
 
         <div class="error-actions">
           <a class="primary-action" href="/">
@@ -96,29 +96,29 @@ import "styles/not-found.css";
             height="142"
             alt="Desafío Latam"
             loading="eager"
-          />
+          >
         </span>
       </div>
     </footer>
   </div>
 
   <script is:inline>
-    const pathOutput = document.querySelector("#missing-path");
-    const backButton = document.querySelector("#go-back");
+  const pathOutput = document.querySelector('#missing-path');
+  const backButton = document.querySelector('#go-back');
 
-    if (pathOutput instanceof HTMLElement) {
-      pathOutput.textContent = window.location.pathname;
-    }
+  if (pathOutput instanceof HTMLElement) {
+    pathOutput.textContent = window.location.pathname;
+  }
 
-    if (backButton instanceof HTMLButtonElement) {
-      backButton.addEventListener("click", () => {
-        if (window.history.length > 1) {
-          window.history.back();
-          return;
-        }
+  if (backButton instanceof HTMLButtonElement) {
+    backButton.addEventListener('click', () => {
+      if (window.history.length > 1) {
+        window.history.back();
+        return;
+      }
 
-        window.location.assign("/");
-      });
-    }
+      window.location.assign('/');
+    });
+  }
   </script>
 </Layout>

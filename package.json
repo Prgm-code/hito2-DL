@@ -2,13 +2,17 @@
   "name": "hito2-dl",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@11.17.0",
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
     "dev": "astro dev",
-    "check": "astro check",
-    "build": "astro check && astro build",
+    "check": "astro check && biome check .",
+    "build": "npm run check && astro build",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "lint:fix": "biome check --write .",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -21,6 +25,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@biomejs/biome": "2.5.7",
     "typescript": "^6.0.3"
   }
 }

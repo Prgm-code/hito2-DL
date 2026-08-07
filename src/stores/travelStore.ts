@@ -1,25 +1,25 @@
-import { createStore } from "zustand/vanilla";
-import { createJSONStorage, persist, type StateStorage } from "zustand/middleware";
-import type { ApiErrorView } from "services/rickAndMortyApiError";
-import type { Character, Location } from "models/rick-and-morty";
 import {
   PlannerView,
-  ReservationStatus,
-  TripType,
   type Reservation,
   type ReservationDraft,
-} from "models/reservation";
+  ReservationStatus,
+  TripType,
+} from 'models/reservation';
+import type { Character, Location } from 'models/rick-and-morty';
+import type { ApiErrorView } from 'services/rickAndMortyApiError';
+import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
+import { createStore } from 'zustand/vanilla';
 
 const initialDraft: ReservationDraft = {
-  passengerName: "",
-  email: "",
+  passengerName: '',
+  email: '',
   destinationId: 0,
-  travelDate: "",
+  travelDate: '',
   passengers: 1,
   companionIds: [],
   tripType: TripType.EXPRESS,
   insurance: false,
-  comments: "",
+  comments: '',
 };
 
 interface TravelState {
@@ -37,7 +37,7 @@ interface TravelState {
   setCatalog: (locations: Location[], page: number, pages: number) => void;
   setCompanions: (companions: Character[]) => void;
   setDraft: (patch: Partial<ReservationDraft>) => void;
-  setView: (view: TravelState["activeView"]) => void;
+  setView: (view: TravelState['activeView']) => void;
   setFilters: (search: string, typeFilter: string) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: ApiErrorView | null) => void;
@@ -73,7 +73,7 @@ const reservationsStorage: StateStorage = {
 };
 
 export const travelStore = createStore<TravelState>()(
-  persist<TravelState, [], [], Pick<TravelState, "reservations">>(
+  persist<TravelState, [], [], Pick<TravelState, 'reservations'>>(
     (set) => ({
       locations: [],
       companions: [],
@@ -82,18 +82,20 @@ export const travelStore = createStore<TravelState>()(
       activeView: PlannerView.DESTINATIONS,
       locationsPage: 1,
       totalLocationPages: 1,
-      search: "",
-      typeFilter: "all",
+      search: '',
+      typeFilter: 'all',
       loading: false,
       error: null,
-      setCatalog: (locations, page, pages) => set({ locations, locationsPage: page, totalLocationPages: pages }),
+      setCatalog: (locations, page, pages) =>
+        set({ locations, locationsPage: page, totalLocationPages: pages }),
       setCompanions: (companions) => set({ companions }),
       setDraft: (patch) => set((state) => ({ draft: { ...state.draft, ...patch } })),
       setView: (activeView) => set({ activeView }),
       setFilters: (search, typeFilter) => set({ search, typeFilter }),
       setLoading: (loading) => set({ loading }),
       setError: (error) => set({ error }),
-      addReservation: (reservation) => set((state) => ({ reservations: [reservation, ...state.reservations] })),
+      addReservation: (reservation) =>
+        set((state) => ({ reservations: [reservation, ...state.reservations] })),
       cancelReservation: (id) =>
         set((state) => ({
           reservations: state.reservations.map((reservation) =>
@@ -106,7 +108,11 @@ export const travelStore = createStore<TravelState>()(
         set((state) => ({
           reservations: state.reservations.map((reservation) =>
             reservation.id === id && reservation.status === ReservationStatus.CONFIRMED
-              ? { ...reservation, status: ReservationStatus.IN_PROGRESS, startedAt: new Date().toISOString() }
+              ? {
+                  ...reservation,
+                  status: ReservationStatus.IN_PROGRESS,
+                  startedAt: new Date().toISOString(),
+                }
               : reservation,
           ),
         })),
@@ -114,14 +120,18 @@ export const travelStore = createStore<TravelState>()(
         set((state) => ({
           reservations: state.reservations.map((reservation) =>
             reservation.id === id && reservation.status === ReservationStatus.IN_PROGRESS
-              ? { ...reservation, status: ReservationStatus.COMPLETED, completedAt: new Date().toISOString() }
+              ? {
+                  ...reservation,
+                  status: ReservationStatus.COMPLETED,
+                  completedAt: new Date().toISOString(),
+                }
               : reservation,
           ),
         })),
       resetDraft: () => set({ draft: { ...initialDraft }, companions: [] }),
     }),
     {
-      name: "reservas",
+      name: 'reservas',
       storage: createJSONStorage(() => reservationsStorage),
       partialize: (state) => ({ reservations: state.reservations }),
     },

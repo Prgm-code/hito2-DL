@@ -9,5 +9,5 @@ export function tomorrow(): string {
   // Se construye con valores locales para evitar cambios de día provocados por UTC.
   const date = new Date();
   date.setDate(date.getDate() + 1);
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }

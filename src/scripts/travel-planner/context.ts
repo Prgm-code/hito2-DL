@@ -1,4 +1,4 @@
-import type { Character, Location } from "models/rick-and-morty";
+import type { Character, Location } from 'models/rick-and-morty';
 
 // Caché en memoria compartida por catálogo y formulario durante la sesión actual.
 export const knownLocations = new Map<number, Location>();

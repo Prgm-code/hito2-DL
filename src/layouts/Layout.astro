@@ -1,30 +1,29 @@
 ---
-import "styles/global.css";
+import 'styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const {
-  title = "Portal Trip — Viajes interdimensionales",
-  description = "Reserva viajes seguros por todo el multiverso de Rick and Morty.",
-} = Astro.props;
+const { title = 'Portal Trip — Viajes interdimensionales' } = Astro.props;
+const description =
+  Astro.props.description ?? 'Reserva viajes seguros por todo el multiverso de Rick and Morty.';
 ---
 
 <!doctype html>
-<html class="scroll-smooth bg-[var(--paper)]" lang="es">
+<html class="scroll-smooth bg-(--paper)" lang="es">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
-    <meta name="theme-color" content="#07110d" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="generator" content={Astro.generator}>
+    <meta name="description" content={description}>
+    <meta name="theme-color" content="#07110d">
     <title>{title}</title>
   </head>
-  <body class="min-h-screen min-w-80 overflow-x-hidden bg-[var(--paper)] text-[var(--ink)]">
+  <body class="min-h-screen min-w-80 overflow-x-hidden bg-(--paper) text-(--ink)">
     <slot />
   </body>
 </html>
