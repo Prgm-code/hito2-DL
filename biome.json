@@ -2,7 +2,15 @@
   "$schema": "https://biomejs.dev/schemas/2.5.7/schema.json",
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!!**/dist", "!!**/.astro", "!!**/.vercel", "!!**/node_modules"]
+    "includes": [
+      "**",
+      "!!vercel.json",
+      "!!**/dist",
+      "!!**/.astro",
+      "!!**/.pnpm-store",
+      "!!**/.vercel",
+      "!!**/node_modules"
+    ]
   },
   "formatter": {
     "enabled": true,
