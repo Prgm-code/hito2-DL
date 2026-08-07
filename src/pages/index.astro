@@ -25,19 +25,20 @@ import 'styles/home.css';
     class="mx-auto w-[calc(100%_-_80px)] max-w-[1360px] max-[1100px]:w-[calc(100%_-_40px)] max-[650px]:w-[calc(100%_-_24px)]"
   >
     <section
-      class="relative flex min-h-[92px] items-center justify-start gap-6 overflow-hidden px-[3%] py-1.5 max-[1100px]:min-h-[88px] max-[1100px]:px-[2%] max-[820px]:min-h-[78px] max-[820px]:py-4 max-[650px]:min-h-[72px] max-[650px]:px-1 max-[650px]:py-[3px] max-[460px]:min-h-[66px]"
+      class="relative grid min-h-[92px] grid-cols-[minmax(0,1fr)_230px] items-center gap-x-6 overflow-hidden px-[3%] py-1.5 max-[1100px]:min-h-[88px] max-[1100px]:px-[2%] max-[820px]:min-h-[78px] max-[820px]:grid-cols-[minmax(0,1fr)_170px] max-[820px]:gap-x-4 max-[820px]:overflow-visible max-[820px]:py-4 max-[650px]:min-h-[72px] max-[650px]:grid-cols-[minmax(0,1fr)_145px] max-[650px]:gap-x-3 max-[650px]:px-1 max-[460px]:min-h-[66px] max-[460px]:grid-cols-[minmax(0,1fr)_100px] max-[460px]:gap-x-2"
       aria-label="Portal interdimensional"
     >
-      <div class="relative z-[2] min-w-0 flex-initial max-[820px]:w-full">
-        <span
-          class="inline-flex items-center gap-2 text-[11.5px] font-[850] uppercase tracking-[.16em] text-[#4f6c5b]"
-          ><span
-            class="size-[7px] rounded-full bg-[var(--green)] shadow-[0_0_0_5px_rgba(169,245,44,.16)]"
-          ></span>
-          Agencia interdimensional certificada</span
-        >
+      <span
+        class="col-span-2 inline-flex items-center gap-2 text-[11.5px] font-[850] uppercase tracking-[.16em] text-[#4f6c5b] max-[460px]:text-[9.5px] max-[460px]:tracking-[.1em]"
+        ><span
+          class="size-[7px] rounded-full bg-[var(--green)] shadow-[0_0_0_5px_rgba(169,245,44,.16)]"
+        ></span>
+        Agencia interdimensional certificada</span
+      >
+
+      <div class="relative z-[2] min-w-0">
         <h1
-          class="my-[12px_8px] max-w-none text-[clamp(31px,3.1vw,48px)] font-[820] leading-none tracking-[-.055em] max-[650px]:max-w-[620px] max-[650px]:text-[35px] max-[460px]:text-[31px]"
+          class="my-[12px_8px] max-w-none text-[clamp(31px,3.1vw,48px)] font-[820] leading-none tracking-[-.055em] text-balance max-[820px]:text-[27px] max-[820px]:leading-[1.04] max-[650px]:max-w-[620px] max-[650px]:text-[25px] max-[460px]:text-[24px]"
           id="hero-title"
         >
           Comienza tu viaje intergaláctico junto a
@@ -51,14 +52,15 @@ import 'styles/home.css';
       </div>
 
       <div
-        class="relative grid h-[110px] w-[230px] flex-none place-items-center max-[820px]:absolute max-[820px]:right-[-25px] max-[820px]:top-1/2 max-[820px]:h-[90px] max-[820px]:-translate-y-1/2 max-[820px]:opacity-10 max-[460px]:h-20 max-[460px]:scale-[.85]"
+        class="relative grid h-[110px] w-[230px] place-items-center self-center max-[820px]:h-[68px] max-[820px]:w-[170px] max-[650px]:h-[60px] max-[650px]:w-[145px] max-[460px]:h-[45px] max-[460px]:w-[100px]"
       >
         <Image
-          class="h-auto w-[220px] object-contain"
+          class="h-auto w-[220px] object-contain max-[820px]:w-[165px] max-[650px]:w-[140px] max-[460px]:w-[95px]"
           src="https://desafiolatam.com/logo-real.png"
           alt="Desafío Latam"
           width={345}
           height={142}
+          fetchpriority="high"
         />
       </div>
     </section>

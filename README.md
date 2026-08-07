@@ -1,4 +1,4 @@
-# Portal de Turismo Interdimensional
+# Portal de Turismo Interdimensional Desafio Latam
 
 Aplicación demostrativa para explorar destinos, elegir acompañantes y guardar
 reservas interdimensionales con datos de
@@ -144,7 +144,7 @@ de TypeScript y, solo si no hay errores, genera el sitio con `astro build`.
 Para revisar los estados visuales de error sin modificar el código:
 
 ```text
-http://localhost:4321/?apiError=404
-http://localhost:4321/?apiError=429
-http://localhost:4321/?apiError=500
+https://hito2-dl.vercel.app/?apiError=404
+https://hito2-dl.vercel.app/?apiError=429
+https://hito2-dl.vercel.app/?apiError=500
 ```
