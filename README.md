@@ -4,6 +4,10 @@ Aplicación demostrativa para explorar destinos, elegir acompañantes y guardar
 reservas interdimensionales con datos de
 [Rick and Morty API](https://rickandmortyapi.com/).
 
+## Sitio desplegado
+
+[https://hito2-dl.vercel.app](https://hito2-dl.vercel.app)
+
 Astro se usa para las páginas y el HTML inicial. Toda la interacción del navegador
 está escrita con TypeScript Vanilla, eventos del DOM, `fetch`, módulos ES nativos y
 `localStorage`. Astro utiliza Vite como servidor de desarrollo y herramienta de
