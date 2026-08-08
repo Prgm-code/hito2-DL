@@ -1,10 +1,15 @@
-# Portal de Turismo Interdimensional Desafio Latam
+# Hito 2 de **Curso - Java - Globant Talento Ready**
+
+## Portal de Turismo Interdimensional
 
 Aplicación demostrativa para explorar destinos, elegir acompañantes y guardar
 reservas interdimensionales con datos de
 [Rick and Morty API](https://rickandmortyapi.com/).
 
-## Sitio desplegado
+> Lo que comenzó como un ejercicio sencillo terminó con un poco de sobreingeniería:
+> se construyó más de lo necesario, pero se aprovechó para aprender y experimentar. 😅
+
+## Proyecto desplegado
 
 [https://hito2-dl.vercel.app](https://hito2-dl.vercel.app)
 
